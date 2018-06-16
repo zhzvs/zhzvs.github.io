@@ -1,0 +1,82 @@
+.container-fluid{
+    height: 800px;
+    background: -webkit-linear-gradient(white, #efefef); /* Safari 5.1 - 6.0 */
+    background: -o-linear-gradient(red, blue); /* Opera 11.1 - 12.0 */
+    background: -moz-linear-gradient(red, blue); /* Firefox 3.6 - 15 */
+    background: linear-gradient(white, #efefef); /* 标准的语法 */
+}
+.container-fluid h1{
+    font-family: '微软雅黑'; font-size: 30px; color:#888;height: 80px; line-height: 80px; font-weight: bold;
+}
+.modify{
+    padding-top: 20px;
+    height: 760px;
+    /* background-color: #efefef; */
+}
+.left-side{
+    background-color:none;
+    height: 680px;
+    font-size: 14px;
+}
+.nav-pills .nav-link.active, .nav-pills .show>.nav-link{
+    background-color:#858080;
+    font-size: 14px;
+}
+.left-side a{
+    color: #333;
+    font-size: 14px;
+}
+.nav-item{ font-size: 14px; font-weight: normal;}
+.nav-tabs{
+    background-color: #858080
+}
+.tab-content .show{
+    /* background-color: #ffffff; */
+}
+.nav-tabs a{
+    color: white;
+}
+.nav-link{
+    border-bottom: 1px dotted  #858080;
+}
+.sub-tab-content{
+    min-height: 710px;
+    height: auto;
+    /* background-color:#efefef; */
+    border:1px solid #dee2e6;
+    border-top: none;
+}
+.nav-item .active{
+    background-color:#efefef;
+}
+.map-button-group{
+    padding: 10px 0 20px 10px;
+    text-align: center;
+}
+#map{
+    margin: 0 auto;
+}
+.showcoodinate{
+    width: 90px; float: left; height: 26px; margin-right: 10px;
+    
+}
+.tips{
+    padding: 10px 0 0 10px;
+    float: left;
+}
+.tips  span{
+    width: 20px;  font-size: 16px; line-height: 26px; float: left;
+}
+.margin-top{
+    margin-top: 40px;
+}
+.alert{
+    display: none; text-align: center
+}
+.card{ border: none}
+.form-title{text-align: center;}
+/* .form-control{width: 100px;display: inline;} */
+.width-set{width:50%;}
+#params-set label.width-set, #surface-set label.width-set, .table .width-set{display: block;width: 140px;}
+.table th{text-align: center;}
+.card .card-header .btn{text-decoration:none; color:#666;}

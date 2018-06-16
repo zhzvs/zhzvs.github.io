@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>body Title0011110</title>
+    <link rel="stylesheet" href="./public/stylesheets/bootstrap.min.css" />
+    <link rel="stylesheet" href="./public/stylesheets/style.css" />
+    <link rel="stylesheet" href="./public/stylesheets/index.css" />
+
+    <script type="text/javascript" src="./public/javascripts/jquery.slim.js"></script>
+    <script type="text/javascript" src="./public/javascripts/jquery.min.js"></script>
+    <script type="text/javascript" src="./public/javascripts/popper.min.js"></script>
+    <script type="text/javascript" src="./public/javascripts/bootstrap.min.js"></script>
+    <script type="text/javascript" src="./public/javascripts/global.js"></script>
+    <script type="text/javascript" src="./public/javascripts/handlebars-v4.0.11.js"></script>
+    <script src="./public/javascripts/raphael.min.js" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript" src="./public/javascripts/map.js"></script>
+    <script type="text/javascript" src="./public/javascripts/productGlider.js"></script>
+
+    <script type="text/x-handlebars-template" id="table-form-template">
+<table class="table" style="{{context.style}}">
+    <tbody>
+    <tr>
+        <td style="text-align:center;" colspan="2">
+            {{context.title}}
+        </td>
+    </tr>
+    {{#form}}
+    <tr>
+        <td style="text-align:left;">
+            <label for="colFormLabelLg" style="" class="col-form-label col-form-label-sm width-set">{{key}}:</label>
+        </td>
+        <td>
+            <input type="text" class="form-control form-control-sm" value="{{value}}" id="{{model_name}}-{{key}}" placeholder="{{key}}">
+        </td>
+    </tr>
+    {{/form}}
+    <tr>
+        <td style="text-align:left;">
+            <label for="colFormLabelLg" style="" class="col-form-label col-form-label-sm width-set">xonxoff:</label>
+        </td>
+        <td>
+            <div class="form-check" style="padding-left:0;">
+                {{#if data.xonxoff}}
+                <div class="form-check form-check-inline" style="">
+                    <input class="form-check-input" type="radio" name="{{context.model_name}}-xonxoff" id="{{context.model_name}}-xonxoff" value="1" checked>
+                    <label class="form-check-label" for="inlineRadio1">是</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="{{context.model_name}}-xonxoff" id="{{context.model_name}}-xonxoff" value="0">
+                    <label class="form-check-label" for="inlineRadio2">否</label>
+                </div>
+                {{else}}
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="{{context.model_name}}-xonxoff" id="{{context.model_name}}-xonxoff" value="1">
+                    <label class="form-check-label" for="inlineRadio1">是</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="{{context.model_name}}-xonxoff" id="{{context.model_name}}-xonxoff" value="0" checked>
+                    <label class="form-check-label" for="inlineRadio2">否</label>
+                </div>
+                {{/if}}
+        </div>
+        </td>
+    </tr>
+    <tr>
+        <td style="text-align:center;" colspan="2">
+            <button type="button" class="btn btn-outline-primary" value="{{context.model_name}}" id="update_{{context.model_name}}">修改</button>
+            <button type="button" class="btn btn-outline-primary" value="{{context.model_name}}" id="write_{{context.model_name}}">写入</button>
+            <button type="button" class="btn btn-outline-primary" value="{{context.model_name}}" id="read_{{context.model_name}}">读取</button>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</script>
+
+    <script type="text/x-handlebars-template" id="table-form-template2">
+    <table class="table" style="{{context.style}}">
+        <tbody>
+        <tr>
+            <td style="text-align:center;" colspan="2">
+                {{context.title}}
+            </td>
+        </tr>
+        {{#form}}
+        <tr>
+            <td style="text-align:left;">
+                <label for="colFormLabelLg" style="" class="col-form-label col-form-label-sm width-set">{{key}}:</label>
+            </td>
+            <td>
+                <input type="text" class="form-control form-control-sm" value="{{value}}" id="{{model_name}}-{{key}}" placeholder="{{key}}">
+            </td>
+        </tr>
+        {{/form}}
+        <tr>
+            <td style="text-align:center;" colspan="2">
+                <button type="button" class="btn btn-outline-primary" value="{{context.model_name}}" id="update_{{context.model_name}}">修改</button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</script>
+
+    <script type="text/x-handlebars-template" id="form-template">
+<div class="card" style="width:100%; margin:0 auto;">
+    <div class="card-header" id="{{context.model_name}}" style="padding:0; text-align:center;">
+        <h5 class="mb-0">
+            <button class="btn btn-link" type="button" style="text-decoration:none; color:#666;" data-toggle="collapse" data-target="#panel_{{context.model_name}}" aria-expanded="false" aria-controls="panel_{{context.model_name}}">
+                {{context.title}}
+            </button>
+        </h5>
+    </div>
+    <div id="panel_{{context.model_name}}" class="collapse" aria-labelledby="label_{{context.model_name}}" data-parent="#accordionExample">
+        <div class="card-body">
+            <div class="form-group row">
+                {{#form}}
+                    <label for="inputEmail3" class="col-sm-4 col-form-label">{{key}}:</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control form-control-sm" id="{{model_name}}-{{key}}" value="{{value}}" placeholder="{{key}}">
+                    </div>
+                {{/form}}
+                <label for="inputEmail3" class="col-sm-4 col-form-label"></label>
+                <div class="form-group row">
+                    <div class="col-sm-12" style="text-align:center;">
+                        <button type="button" class="btn btn-outline-primary" id="update_{{context.model_name}}" value="{{context.model_name}}">修改</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</script>
+
+    <script type="text/x-handlerbars-template" id="tabTemplate">
+<ul class="nav nav-tabs" id="myTab" role="tablist">
+    <li class="nav-item">
+        <a class="nav-link active" id="content1-tab" data-toggle="tab" href="#content1" role="tab" aria-controls="content1" aria-selected="true">航路管理</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" id="content2-tab" data-toggle="tab" href="#content2" role="tab" aria-controls="content2" aria-selected="false">实时任务简报</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" id="content3-tab" data-toggle="tab" href="#content3" role="tab" aria-controls="content3" aria-selected="false">基础设施</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" id="content4-tab" data-toggle="tab" href="#content4" role="tab" aria-controls="content4" aria-selected="false">设备检测</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" id="content5-tab" data-toggle="tab" href="#content5" role="tab" aria-controls="content5" aria-selected="false">历史任务简报</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" id="content6-tab" data-toggle="tab" href="#content6" role="tab" aria-controls="content6" aria-selected="false">仿真测试</a>
+    </li>
+</ul>
+<div class="tab-content sub-tab-content" id="myTabContent">
+    <div class="tab-pane fade show active" id="content1" role="tabpanel" aria-labelledby="home-tab">
+        <div class="btn-group map-button-group" role="group" aria-label="Basic example">
+            <button id="startDraw"  class="btn btn-secondary btn-sm">开始绘制路径</button>&nbsp;&nbsp;
+            <button type ='button' class="btn btn-secondary btn-sm" id="finishDraw">结束绘制路径</button>&nbsp;&nbsp;
+            <button type ='button'  class="btn btn-secondary btn-sm" id="savePath"  data-toggle="modal" data-target="#showModalInput">保存路径</button>&nbsp;&nbsp;
+            <button type ='button' id="clear"  class="btn btn-secondary btn-sm">清除</button>
+            <div class="tips">
+                <span>N:</span><input type="text" class="form-control showcoodinate" placeholder="N" id='N'>
+                <span>E:</span><input type="text" class="form-control showcoodinate" placeholder="E" id='E'>
+            </div>
+        </div>
+        <div class="form-group tips">
+            <label for="exampleFormControlSelect1">选择航迹：</label>
+            <select class="form-control form-control-sm" id="seawayDropDownList">
+                <option value="0" select>请选择</option>
+                {{#each seawayList}}
+                <option value="{{seaway_id}}">{{name}}</option>
+                {{/each}}
+            </select>
+            <button type="button" class="btn btn-secondary btn-sm" id="importPath">导入</button>&nbsp;<button type="button" class="btn btn-secondary btn-sm" id="deletePath">删除</button>
+        </div>
+        <div id='map'></div>
+        <div class="card" styles='width: 100%;'>
+            <div class="card-body" id='showGeography'></div>
+        </div>
+    </div>
+    <div class="tab-pane fade" id="content2" role="tabpanel" aria-labelledby="profile-tab">
+        content 2
+    </div>
+    <div class="tab-pane fade" id="content3" role="tabpanel" aria-labelledby="contact-tab">
+        <div class="column">
+            <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">设备编号：{{data.gliderInfo.glider_id}}<input type="hidden" id="gliderId" value="{{data.gliderInfo.glider_id}}" /></label>
+        </div>
+        <div class="card">
+            <div class="card-header" id="" style="padding:0; text-align:center;">
+                <h5 class="mb-0">
+                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#panel_delete_glider" aria-expanded="false" aria-controls="panel_delete_glider">
+                        滑翔机删除
+                    </button>
+                </h5>
+            </div>        
+            <div id="panel_delete_glider" class="collapse" aria-labelledby="headingOne" data-parent="#parent_accordionExample">
+                <div class="card-body">
+                    <button type="button" id="deleteGlider" class="btn btn-secondary" style="display:block; margin:0 auto;">删除该滑翔机</button>
+                </div>
+            </div>
+        </div>
+        <div class="card" style="width:100%; margin:0 auto;">
+            <div class="card-header" id="wireless" style="padding:0; text-align:center;">
+                <h5 class="mb-0">
+                    <button class="btn btn-link" type="button" style="" data-toggle="collapse" data-target="#collapseOne1" aria-expanded="true" aria-controls="collapseOne1">
+                        串口设置
+                    </button>
+                </h5>
+            </div>
+            <div id="collapseOne1" class="collapse" aria-labelledby="wireless" data-parent="#accordionExample">
+                <div class="card-body clearfix">
+                        {{forms-table-chema data.gliderSerial style="float:left;width:33.3%;" model_name="gliderSerial" title="无线串口设置"}}
+                        {{forms-table-chema data.bdSerial style="float:left;width:33.3%;" model_name="bdSerial" title="北斗串口设置"}}
+                        {{forms-table-chema data.iridiumSerial style="float:left;width:33.3%;" model_name="iridiumSerial" title="铱星串口设置"}}
+                </div>
+            </div>
+        </div>
+        {{formschema data.settings style="float:left; color:red;" title="参数设置" model_name="settings"}}
+        {{formschema data.surfaceSettings style="float:left; color:red;" title="水面控制" model_name="surfaceSettings"}}
+    </div>
+    <div class="tab-pane fade" id="content4" role="tabpanel" aria-labelledby="contact-tab">
+        <div class="column">
+            <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">设备编号：{{data.gliderInfo.glider_id}}</label>
+        </div>
+        <div class="card" style="width:100%; margin:0 auto;">
+            <div class="card-header" id="indicator-set" style="padding:0; text-align:center;">
+                <h5 class="mb-0">
+                    <button class="btn btn-link" type="button" style="" data-toggle="collapse" data-target="#panel_indicator-set" aria-expanded="false" aria-controls="panel_indicator-set">
+                            磁罗盘|能耗设置
+                    </button>
+                </h5>
+            </div>
+            <div id="panel_indicator-set" class="collapse" aria-labelledby="wireless" data-parent="">
+                <div class="card-body clearfix">
+                    {{forms-table-chema2 data.compass style="float:left;width:50%;" model_name="compass" title="磁罗盘设置"}}
+                    {{forms-table-chema2 data.energy style="float:left;width:50%;" model_name="energy" title="能耗测量"}}
+                </div>
+            </div>
+        </div>
+        <div class="card" style="width:100%; margin:0 auto;">
+            <div class="card-header" id="" style="padding:0; text-align:center;">
+                <h5 class="mb-0">
+                    <button class="btn btn-link" type="button" style="" data-toggle="collapse" data-target="#panel_indicator-set2" aria-expanded="false" aria-controls="panel_indicator-set2">
+                            高度计|深度计|CTD设置
+                    </button>
+                </h5>
+            </div>
+            <div id="panel_indicator-set2" class="collapse" aria-labelledby="wireless" data-parent="">
+                <div class="card-body clearfix">
+                    {{forms-table-chema2 data.altimeter style="float:left;width:33.3%;" model_name="altimeter" title="高度计设置"}}
+                    {{forms-table-chema2 data.depthometer style="float:left;width:33.3%;" model_name="depthometer" title="深度计设置"}}
+                    {{forms-table-chema2 data.ctd style="float:left;width:33.3%;" model_name="ctd" title="CTD设置"}}
+                </div>
+            </div>
+        </div>
+
+        <div class="card" style="width:100%; margin:0 auto;">
+            <div class="card-header" id="" style="padding:0; text-align:center;">
+                <h5 class="mb-0">
+                    <button class="btn btn-link" type="button" style="" data-toggle="collapse" data-target="#panel_indicator-set3" aria-expanded="false" aria-controls="panel_indicator-set3">
+                            喷泵|铱星设置
+                    </button>
+                </h5>
+            </div>
+            <div id="panel_indicator-set3" class="collapse" aria-labelledby="wireless" data-parent="">
+                <div class="card-body clearfix">
+                    {{forms-table-chema2 data.compressor style="float:left;width:50%;" model_name="compressor" title="喷泵设置"}}
+                    {{forms-table-chema2 data.iridium style="float:left;width:50%;" model_name="iridium" title="铱星设置"}}
+                </div>
+            </div>
+        </div>
+        <div class="card" style="width:100%; margin:0 auto;">
+            <div class="card-header" id="" style="padding:0; text-align:center;">
+                <h5 class="mb-0">
+                    <button class="btn btn-link" type="button" style="" data-toggle="collapse" data-target="#panel_indicator-set4" aria-expanded="false" aria-controls="panel_indicator-set4">
+                            浮力调节|AIS设置
+                    </button>
+                </h5>
+            </div>
+            <div id="panel_indicator-set4" class="collapse" aria-labelledby="wireless" data-parent="">
+                <div class="card-body clearfix">
+                    {{forms-table-chema2 data.buoyancy style="float:left;width:50%;" model_name="buoyancy" title="浮力调节"}}
+                    {{forms-table-chema2 data.ais style="float:left;width:50%;" model_name="ais" title="AIS设置"}}
+                </div>
+            </div>
+        </div>
+        <div class="card" style="width:100%; margin:0 auto;">
+            <div class="card-header" id="" style="padding:0; text-align:center;">
+                <h5 class="mb-0">
+                    <button class="btn btn-link" type="button" style="" data-toggle="collapse" data-target="#panel_indicator-set5" aria-expanded="false" aria-controls="panel_indicator-set5">
+                            方向舵|北斗BD|质心调节
+                    </button>
+                </h5>
+            </div>
+            <div id="panel_indicator-set5" class="collapse" aria-labelledby="wireless" data-parent="">
+                <div class="card-body clearfix">
+                    {{forms-table-chema2 data.rudder style="float:left;width:33.3%;" model_name="rudder" title="方向舵调节"}}
+                    {{forms-table-chema2 data.bd style="float:left;width:33.3%;" model_name="bd" title="北斗BD设置"}}
+                    {{forms-table-chema2 data.centroid style="float:left;width: 33.3%;" model_name="centroid" title="质心调节"}}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="tab-pane fade" id="content5" role="tabpanel" aria-labelledby="contact-tab">content 5</div>
+    <div class="tab-pane fade" id="content6" role="tabpanel" aria-labelledby="contact-tab">content 6</div>
+</div>
+</script>
+    <script type="text/x-handlebars-template" id="leftTabTemplate">
+  <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+      {{#each data}}
+      <a class="nav-link" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true" data-gliderid="{{this.gliderInfo.glider_id}}">滑翔机编号:{{this.gliderInfo.glider_id}}</a>
+      {{/each}}
+    </div>
+</script>
+
+</head>
+
+<body>
+
+    <div class="container modify">
+        <div class="row">
+            <div class="col-2 left-side" id="leftTabHtml">
+                <a class="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home"
+                    aria-selected="true">滑翔机列表</a>
+            </div>
+            <div class="col-10">
+                <div class="tab-content" id="v-pills-tabContent">
+
+                </div>
+            </div>
+        </div>
+        <div class="alert alert-success" role="alert" id="success"></div>
+        <div class="alert alert-danger" role="alert" id="failed"></div>
+    </div>
+    <div class="modal fade" id="showModalInput" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">保存路径</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                    <div class="form-group row" style="text-align: center;">
+                        <label for="inputPassword" class="col-sm-4 col-form-label" style="">路径名称：</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="pathInput" style="width: 220px;" placeholder="请输入路径">
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" id="savePathButton">确定</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

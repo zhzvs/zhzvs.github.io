@@ -1,0 +1,1114 @@
+<ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" id="content1-tab" data-toggle="tab" href="#content1" role="tab" aria-controls="content1" aria-selected="true">航路管理</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="content2-tab" data-toggle="tab" href="#content2" role="tab" aria-controls="content2" aria-selected="false">实时任务简报</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="content3-tab" data-toggle="tab" href="#content3" role="tab" aria-controls="content3" aria-selected="false">基础设施</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="content4-tab" data-toggle="tab" href="#content4" role="tab" aria-controls="content4" aria-selected="false">设备检测</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="content5-tab" data-toggle="tab" href="#content5" role="tab" aria-controls="content5" aria-selected="false">历史任务简报</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="content6-tab" data-toggle="tab" href="#content6" role="tab" aria-controls="content6" aria-selected="false">仿真测试</a>
+        </li>
+    </ul>
+    <div class="tab-content sub-tab-content" id="myTabContent">
+        <div class="tab-pane fade show active" id="content1" role="tabpanel" aria-labelledby="home-tab">
+            <div class="btn-group map-button-group" role="group" aria-label="Basic example">
+                <button id="startDraw"  class="btn btn-secondary btn-sm">开始绘制路径</button>&nbsp;&nbsp;
+                <button type ='button' class="btn btn-secondary btn-sm" id="finishDraw">结束绘制路径</button>&nbsp;&nbsp;
+                <button type ='button'  class="btn btn-secondary btn-sm" id="savePath"  data-toggle="modal" data-target="#showModalInput">保存路径</button>&nbsp;&nbsp;
+                <button type ='button' id="clear"  class="btn btn-secondary btn-sm">清除</button>
+                <div class="tips">
+                    <span>N:</span><input type="text" class="form-control showcoodinate" placeholder="N" id='N'>
+                    <span>E:</span><input type="text" class="form-control showcoodinate" placeholder="E" id='E'>
+                </div>
+            </div>
+            <div class="form-group tips">
+              <label for="exampleFormControlSelect1">选择航迹：</label>
+              <select class="form-control form-control-sm" id="seawayDropDownList">
+                  {{{{raw}}}}
+                    <option value="0" select>请选择</option>
+                    {{#each seawayList}}
+                      <option value="{{seaway_id}}">{{name}}</option>
+                    {{/each}}
+                  {{{{/raw}}}}
+              </select>
+              <button type="button" class="btn btn-secondary btn-sm" id="importPath">导入</button>&nbsp;<button type="button" class="btn btn-secondary btn-sm" id="deletePath">删除</button>
+            </div>
+            <div id='map'></div>
+            <div class="card" styles='width: 100%;'>
+                <div class="card-body" id='showGeography'></div>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="content2" role="tabpanel" aria-labelledby="profile-tab">
+            content 2
+        </div>
+        <div class="tab-pane fade" id="content3" role="tabpanel" aria-labelledby="contact-tab">
+            <input type="hidden" id="gliderId" value = "{{{{raw}}}}{{data.gliderInfo.glider_id}}{{{{/raw}}}}"/>
+            <div class="column">
+                <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">设备编号：{{{{raw}}}}{{data.gliderInfo.glider_id}}{{{{/raw}}}}</label>
+                <button type="button" id="deleteGlider" class="btn btn-secondary">删除该滑翔机</button>
+            </div>
+            <div class="column" style="padding-left:1px;">
+                <table class="table" style="width:33.3%; float: left;">
+                    <tbody>
+                    <tr>
+                        <td style="text-align:center;" colspan="2">
+                            无线串口设置
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:center;">
+                            <label for="colFormLabelLg" style="" class="col-sm-2 col-form-label col-form-label-sm width-set">baudrate:</label>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control form-control-sm" value="{{{{raw}}}}{{data.gliderSerial.baudrate}}{{{{/raw}}}}" id="gliderSerial-baudrate" placeholder="col-form-label-lg">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:center;">
+                            <label for="colFormLabelLg" style="" class="col-sm-2 col-form-label col-form-label-sm width-set">bytesize:</label>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control form-control-sm" value="{{{{raw}}}}{{data.gliderSerial.bytesize}}{{{{/raw}}}}" id="gliderSerial-bytesize" placeholder="col-form-label-lg">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:center;">
+                            <label for="colFormLabelLg" style="" class="col-sm-2 col-form-label col-form-label-sm width-set">parity:</label>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control form-control-sm" value="{{{{raw}}}}{{data.gliderSerial.parity}}{{{{/raw}}}}" id="gliderSerial-parity" placeholder="col-form-label-lg">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:center;">
+                            <label for="colFormLabelLg" style="" class="col-sm-2 col-form-label col-form-label-sm width-set">port:</label>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control form-control-sm" value="{{{{raw}}}}{{data.gliderSerial.port}}{{{{/raw}}}}" id="gliderSerial-port" placeholder="col-form-label-lg">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:center;">
+                            <label for="colFormLabelLg" style="" class="col-sm-2 col-form-label col-form-label-sm width-set">stopbits:</label>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control form-control-sm" value="{{{{raw}}}}{{data.gliderSerial.stopbits}}{{{{/raw}}}}" id="gliderSerial-stopbits" placeholder="col-form-label-lg">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:center;">
+                            <label for="colFormLabelLg" style="" class="col-sm-2 col-form-label col-form-label-sm width-set">timeout:</label>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control form-control-sm" value="{{{{raw}}}}{{data.gliderSerial.timeout}}{{{{/raw}}}}" id="gliderSerial-timeout" placeholder="col-form-label-lg">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:center;">
+                            <label for="colFormLabelLg" style="" class="col-sm-2 col-form-label col-form-label-sm width-set">xonxoff:</label>
+                        </td>
+                        <td>
+                            {{{{raw}}}}<div class="form-check">
+                            {{#if data.gliderSerial.xonxoff}}
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="gliderSerial-xonxoff" id="gliderSerial-xonxoff1" value="1" checked>
+                                <label class="form-check-label" for="inlineRadio1">是</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="gliderSerial-xonxoff" id="gliderSerial-xonxoff2" value="0">
+                                <label class="form-check-label" for="inlineRadio2">否</label>
+                            </div>
+                            {{else}}
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="gliderSerial-xonxoff" id="gliderSerial-xonxoff1" value="1">
+                                <label class="form-check-label" for="inlineRadio1">是</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" checked name="gliderSerial-xonxoff" id="gliderSerial-xonxoff2" value="0">
+                                <label class="form-check-label" for="inlineRadio2">否</label>
+                            </div>
+                            {{/if}}
+                        </div>{{{{/raw}}}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:center;">
+                            <button type="button" class="btn btn-outline-primary" id="updateWireLessSerial">修改</button>
+                        </td>
+                        <td style="text-align:center;">
+                            <button type="button" class="btn btn-outline-primary">写入</button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <table class="table" style="width:33.3%; float: left;">
+                    <tbody>
+                    <tr>
+                        <td style="text-align:center;" colspan="2">
+                            北斗串口设置
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:center;">
+                            <label for="colFormLabelLg" style="" class="col-sm-2 col-form-label col-form-label-sm width-set">baudrate:</label>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control form-control-sm" value="{{{{raw}}}}{{data.bdSerial.baudrate}}{{{{/raw}}}}" id="bdSerial-baudrate" placeholder="col-form-label-lg">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:center;">
+                            <label for="colFormLabelLg" style="" class="col-sm-2 col-form-label col-form-label-sm width-set">bytesize:</label>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control form-control-sm" value="{{{{raw}}}}{{data.bdSerial.bytesize}}{{{{/raw}}}}" id="bdSerial-bytesize" placeholder="col-form-label-lg">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:center;">
+                            <label for="colFormLabelLg" style="" class="col-sm-2 col-form-label col-form-label-sm width-set">parity:</label>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control form-control-sm" value="{{{{raw}}}}{{data.bdSerial.parity}}{{{{/raw}}}}" id="bdSerial-parity" placeholder="col-form-label-lg">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:center;">
+                            <label for="colFormLabelLg" style="" class="col-sm-2 col-form-label col-form-label-sm width-set">port:</label>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control form-control-sm" value="{{{{raw}}}}{{data.bdSerial.port}}{{{{/raw}}}}" id="bdSerial-port" placeholder="col-form-label-lg">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:center;">
+                            <label for="colFormLabelLg" style="" class="col-sm-2 col-form-label col-form-label-sm width-set">stopbits:</label>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control form-control-sm" value="{{{{raw}}}}{{data.bdSerial.stopbits}}{{{{/raw}}}}" id="bdSerial-stopbits" placeholder="col-form-label-lg">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:center;">
+                            <label for="colFormLabelLg" style="" class="col-sm-2 col-form-label col-form-label-sm width-set">timeout:</label>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control form-control-sm" value="{{{{raw}}}}{{data.bdSerial.timeout}}{{{{/raw}}}}" id="bdSerial-timeout" placeholder="col-form-label-lg">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:center;">
+                            <label for="colFormLabelLg" style="" class="col-sm-2 col-form-label col-form-label-sm width-set">xonxoff:</label>
+                        </td>
+                        <td>
+                            {{{{raw}}}}<div class="form-check">
+                            {{#if data.bdSerial.xonxoff}}
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="bdSerial-xonxoff" id="bdSerial-xonxoff1" value="1" checked>
+                                <label class="form-check-label" for="inlineRadio1">是</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="bdSerial-xonxoff" id="bdSerial-xonxoff2" value="0">
+                                <label class="form-check-label" for="inlineRadio2">否</label>
+                            </div>
+                            {{else}}
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="bdSerial-xonxoff" id="bdSerial-xonxoff1" value="1">
+                                <label class="form-check-label" for="inlineRadio1">是</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="bdSerial-xonxoff" id="bdSerial-xonxoff2" value="0" checked>
+                                <label class="form-check-label" for="inlineRadio2">否</label>
+                            </div>
+                            {{/if}}
+                        </div>{{{{/raw}}}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:center;">
+                            <button type="button" class="btn btn-outline-primary" id="updateBDSerial">修改</button>
+                        </td>
+                        <td style="text-align:center;">
+                            <button type="button" class="btn btn-outline-primary">写入</button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <table class="table" style="width:33.3%; float: left;">
+                    <tbody>
+                    <tr>
+                        <td style="text-align:center;" colspan="2">
+                            铱星串口设置
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:center;">
+                            <label for="colFormLabelLg" style="" class="col-sm-2 col-form-label col-form-label-sm width-set">baudrate:</label>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control form-control-sm" value="{{{{raw}}}}{{data.iridiumSerial.baudrate}}{{{{/raw}}}}" id="iridiumSerial-baudrate" placeholder="col-form-label-lg">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:center;">
+                            <label for="colFormLabelLg" style="" class="col-sm-2 col-form-label col-form-label-sm width-set">bytesize:</label>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control form-control-sm" value="{{{{raw}}}}{{data.iridiumSerial.bytesize}}{{{{/raw}}}}" id="iridiumSerial-bytesize" placeholder="col-form-label-lg">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:center;">
+                            <label for="colFormLabelLg" style="" class="col-sm-2 col-form-label col-form-label-sm width-set">parity:</label>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control form-control-sm" value="{{{{raw}}}}{{data.iridiumSerial.parity}}{{{{/raw}}}}" id="iridiumSerial-parity" placeholder="col-form-label-lg">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:center;">
+                            <label for="colFormLabelLg" style="" class="col-sm-2 col-form-label col-form-label-sm width-set">port:</label>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control form-control-sm" value="{{{{raw}}}}{{data.iridiumSerial.port}}{{{{/raw}}}}" id="iridiumSerial-port" placeholder="col-form-label-lg">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:center;">
+                            <label for="colFormLabelLg" style="" class="col-sm-2 col-form-label col-form-label-sm width-set">stopbits:</label>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control form-control-sm" value="{{{{raw}}}}{{data.iridiumSerial.stopbits}}{{{{/raw}}}}" id="iridiumSerial-stopbits" placeholder="col-form-label-lg">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:center;">
+                            <label for="colFormLabelLg" style="" class="col-sm-2 col-form-label col-form-label-sm width-set">timeout:</label>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control form-control-sm" value="{{{{raw}}}}{{data.iridiumSerial.timeout}}{{{{/raw}}}}" id="iridiumSerial-timeout" placeholder="col-form-label-lg">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:center;">
+                            <label for="colFormLabelLg" style="" class="col-sm-2 col-form-label col-form-label-sm width-set">xonxoff:</label>
+                        </td>
+                        <td>
+                            {{{{raw}}}}<div class="form-check">
+                            {{#if data.iridiumSerial.xonxoff}}
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="iridiumSerial-xonxoff" id="inlineRadio1" value="1" checked>
+                                <label class="form-check-label" for="inlineRadio1">是</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="iridiumSerial-xonxoff" id="inlineRadio2" value="0">
+                                <label class="form-check-label" for="inlineRadio2">否</label>
+                            </div>
+                            {{else}}
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="iridiumSerial-xonxoff" id="inlineRadio1" value="1">
+                                <label class="form-check-label" for="inlineRadio1">是</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="iridiumSerial-xonxoff" id="inlineRadio2" value="0" checked>
+                                <label class="form-check-label" for="inlineRadio2">否</label>
+                            </div>
+                            {{/if}}
+                        </div>{{{{/raw}}}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:center;">
+                            <button type="button" class="btn btn-outline-primary" id="updateIridiumSerial">修改</button>
+                        </td>
+                        <td style="text-align:center;">
+                            <button type="button" class="btn btn-outline-primary">写入</button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="column">
+                <table class="table" id="params-set">
+                    <thead>
+                    <tr>
+                        <th scope="col" colspan="6">参数设置</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td style="text-align:center;">
+                            <label for="colFormLabelLg" style="" class="col-sm-2 col-form-label col-form-label-sm width-set">balance_angle:</label>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control form-control-sm" value="{{{{raw}}}}{{data.settings.balance_angle}}{{{{/raw}}}}" id="settings-balance_angle" placeholder="balance_angle">
+                        </td>
+                        <td style="text-align:center;">
+                            <label for="colFormLabelLg" style="" class="col-sm-2 col-form-label col-form-label-sm width-set">balance_buoyancy:</label>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control form-control-sm" value="{{{{raw}}}}{{data.settings.balance_buoyancy}}{{{{/raw}}}}" id="settings-balance_buoyancy" placeholder="balance_buoyancy">
+                        </td>
+                        <td style="text-align:center;">
+                            <label for="colFormLabelLg" style="" class="col-sm-2 col-form-label col-form-label-sm width-set">balance_displacement:</label>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control form-control-sm" value="{{{{raw}}}}{{data.settings.balance_displacement}}{{{{/raw}}}}" id="settings-balance_displacement" placeholder="balance_displacement">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:center;">
+                            <label for="colFormLabelLg" style="" class="col-sm-2 col-form-label col-form-label-sm width-set">collision_height:</label>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control form-control-sm" value="{{{{raw}}}}{{data.settings.collision_height}}{{{{/raw}}}}" id="settings-collision_height" placeholder="collision_height">
+                        </td>
+                        <td style="text-align:center;">
+                            <label for="colFormLabelLg" style="" class="col-sm-2 col-form-label col-form-label-sm width-set">control_period:</label>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control form-control-sm" value="{{{{raw}}}}{{data.settings.control_period}}{{{{/raw}}}}" id="settings-control_period" placeholder="control_period">
+                        </td>
+                        <td style="text-align:center;">
+                            <label for="colFormLabelLg" style="" class="col-sm-2 col-form-label col-form-label-sm width-set">critical_boat_distance:</label>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control form-control-sm" value="{{{{raw}}}}{{data.settings.critical_boat_distance}}{{{{/raw}}}}" id="settings-critical_boat_distance" placeholder="critical_boat_distance">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:center;">
+                            <label for="colFormLabelLg" style="" class="col-sm-2 col-form-label col-form-label-sm width-set">data_collect_config:</label>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control form-control-sm" value="{{{{raw}}}}{{data.settings.data_collect_config}}{{{{/raw}}}}" id="settings-data_collect_config" placeholder="data_collect_config">
+                        </td>
+                        <td style="text-align:center;">
+                            <label for="colFormLabelLg" style="" class="col-sm-2 col-form-label col-form-label-sm width-set">data_collect_period:</label>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control form-control-sm" value="{{{{raw}}}}{{data.settings.data_collect_period}}{{{{/raw}}}}" id="settings-data_collect_period" placeholder="data_collect_period">
+                        </td>
+                        <td style="text-align:center;">
+                            <label for="colFormLabelLg" style="" class="col-sm-2 col-form-label col-form-label-sm width-set">deep_depth:</label>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control form-control-sm" value="{{{{raw}}}}{{data.settings.deep_depth}}{{{{/raw}}}}" id="settings-deep_depth" placeholder="deep_depth">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:center;">
+                            <label for="colFormLabelLg" style="" class="col-sm-2 col-form-label col-form-label-sm width-set">depthkeeping_precision:</label>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control form-control-sm" value="{{{{raw}}}}{{data.settings.depthkeeping_precision}}{{{{/raw}}}}" id="settings-depthkeeping_precision" placeholder="depthkeeping_precision">
+                        </td>
+                        <td style="text-align:center;">
+                            <label for="colFormLabelLg" style="" class="col-sm-2 col-form-label col-form-label-sm width-set">discharge_depth:</label>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control form-control-sm" value="{{{{raw}}}}{{data.settings.discharge_depth}}{{{{/raw}}}}" id="settings-discharge_depth" placeholder="discharge_depth">
+                        </td>
+                        <td style="text-align:center;">
+                            <label for="colFormLabelLg" style="" class="col-sm-2 col-form-label col-form-label-sm width-set">dive_angle:</label>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control form-control-sm" value="{{{{raw}}}}{{data.settings.dive_angle}}{{{{/raw}}}}" id="settings-dive_angle" placeholder="dive_angle">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:center;">
+                            <label for="colFormLabelLg" style="" class="col-sm-2 col-form-label col-form-label-sm width-set">dive_buoyancy:</label>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control form-control-sm" value="{{{{raw}}}}{{data.settings.dive_buoyancy}}{{{{/raw}}}}" id="settings-dive_buoyancy" placeholder="dive_buoyancy">
+                        </td>
+                        <td style="text-align:center;">
+                            <label for="colFormLabelLg" style="" class="col-sm-2 col-form-label col-form-label-sm width-set">dive_displacement:</label>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control form-control-sm" value="{{{{raw}}}}{{data.settings.dive_displacement}}{{{{/raw}}}}" id="settings-dive_displacement" placeholder="dive_displacement">
+                        </td>
+                        <td style="text-align:center;">
+                            <label for="colFormLabelLg" style="" class="col-sm-2 col-form-label col-form-label-sm width-set">dive_rotate_speed:</label>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control form-control-sm" value="{{{{raw}}}}{{data.settings.dive_rotate_speed}}{{{{/raw}}}}" id="settings-dive_rotate_speed" placeholder="dive_rotate_speed">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:center;">
+                            <label for="colFormLabelLg" style="" class="col-sm-2 col-form-label col-form-label-sm width-set">dive_vertical_speed:</label>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control form-control-sm" value="{{{{raw}}}}{{data.settings.dive_vertical_speed}}{{{{/raw}}}}" id="settings-dive_vertical_speed" placeholder="dive_vertical_speed">
+                        </td>
+                        <td style="text-align:center;">
+                            <label for="colFormLabelLg" style="" class="col-sm-2 col-form-label col-form-label-sm width-set">light_depth:</label>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control form-control-sm" value="{{{{raw}}}}{{data.settings.light_depth}}{{{{/raw}}}}" id="settings-light_depth" placeholder="light_depth">
+                        </td>
+                        <td style="text-align:center;">
+                            <label for="colFormLabelLg" style="" class="col-sm-2 col-form-label col-form-label-sm width-set">maneuvering_time:</label>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control form-control-sm" value="{{{{raw}}}}{{data.settings.maneuvering_time}}{{{{/raw}}}}" id="settings-maneuvering_time" placeholder="maneuvering_time">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:center;">
+                            <label for="colFormLabelLg" style="" class="col-sm-2 col-form-label col-form-label-sm width-set">profile_count:</label>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control form-control-sm" value="{{{{raw}}}}{{data.settings.profile_count}}{{{{/raw}}}}" id="settings-profile_count" placeholder="profile_count">
+                        </td>
+                        <td style="text-align:center;">
+                            <label for="colFormLabelLg" style="" class="col-sm-2 col-form-label col-form-label-sm width-set">profile_timeout:</label>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control form-control-sm" value="{{{{raw}}}}{{data.settings.profile_timeout}}{{{{/raw}}}}" id="settings-profile_timeout" placeholder="profile_timeout">
+                        </td>
+                        <td style="text-align:center;">
+                            <label for="colFormLabelLg" style="" class="col-sm-2 col-form-label col-form-label-sm width-set">specified_speed:</label>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control form-control-sm" value="{{{{raw}}}}{{data.settings.specified_speed}}{{{{/raw}}}}" id="settings-specified_speed" placeholder="specified_speed">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:center;">
+                            <label for="colFormLabelLg" style="" class="col-sm-2 col-form-label col-form-label-sm width-set">system_day:</label>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control form-control-sm" value="{{{{raw}}}}{{data.settings.system_day}}{{{{/raw}}}}" id="settings-system_day" placeholder="system_day">
+                        </td>
+                        <td style="text-align:center;">
+                            <label for="colFormLabelLg" style="" class="col-sm-2 col-form-label col-form-label-sm width-set">system_hour:</label>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control form-control-sm" value="{{{{raw}}}}{{data.settings.system_hour}}{{{{/raw}}}}" id="settings-system_hour" placeholder="system_hour">
+                        </td>
+                        <td style="text-align:center;">
+                            <label for="colFormLabelLg" style="" class="col-sm-2 col-form-label col-form-label-sm width-set">system_minute:</label>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control form-control-sm" value="{{{{raw}}}}{{data.settings.system_minute}}{{{{/raw}}}}" id="settings-system_minute" placeholder="system_minute">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:center;">
+                            <label for="colFormLabelLg" style="" class="col-sm-2 col-form-label col-form-label-sm width-set">system_month:</label>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control form-control-sm" value="{{{{raw}}}}{{data.settings.system_month}}{{{{/raw}}}}" id="settings-system_month" placeholder="system_month">
+                        </td>
+                        <td style="text-align:center;">
+                            <label for="colFormLabelLg" style="" class="col-sm-2 col-form-label col-form-label-sm width-set">system_second:</label>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control form-control-sm" value="{{{{raw}}}}{{data.settings.system_second}}{{{{/raw}}}}" id="settings-system_second" placeholder="system_second">
+                        </td>
+                        <td style="text-align:center;">
+                            <label for="colFormLabelLg" style="" class="col-sm-2 col-form-label col-form-label-sm width-set">system_year:</label>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control form-control-sm" value="{{{{raw}}}}{{data.settings.system_year}}{{{{/raw}}}}" id="settings-system_year" placeholder="system_year">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:center;">
+                            <label for="colFormLabelLg" style="" class="col-sm-2 col-form-label col-form-label-sm width-set">target_heading:</label>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control form-control-sm" value="{{{{raw}}}}{{data.settings.target_heading}}{{{{/raw}}}}" id="settings-target_heading" placeholder="target_heading">
+                        </td>
+                        <td style="text-align:center;">
+                            <label for="colFormLabelLg" style="" class="col-sm-2 col-form-label col-form-label-sm width-set">upper_angle:</label>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control form-control-sm" value="{{{{raw}}}}{{data.settings.upper_angle}}{{{{/raw}}}}" id="settings-upper_angle" placeholder="upper_angle">
+                        </td>
+                        <td style="text-align:center;">
+                            <label for="colFormLabelLg" style="" class="col-sm-2 col-form-label col-form-label-sm width-set">upper_buoyancy:</label>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control form-control-sm" value="{{{{raw}}}}{{data.settings.upper_buoyancy}}{{{{/raw}}}}" id="settings-upper_buoyancy" placeholder="upper_buoyancy">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:center;">
+                            <label for="colFormLabelLg" style="" class="col-sm-2 col-form-label col-form-label-sm width-set">upper_displacement:</label>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control form-control-sm" value="{{{{raw}}}}{{data.settings.upper_displacement}}{{{{/raw}}}}" id="settings-upper_displacement" placeholder="upper_displacement">
+                        </td>
+                        <td style="text-align:center;">
+                            <label for="colFormLabelLg" style="" class="col-sm-2 col-form-label col-form-label-sm width-set">upper_vertical_speed:</label>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control form-control-sm" value="{{{{raw}}}}{{data.settings.upper_vertical_speed}}{{{{/raw}}}}" id="settings-upper_vertical_speed" placeholder="upper_vertical_speed">
+                        </td>
+                        <td style="text-align:center;">
+                            <label for="colFormLabelLg" style="" class="col-sm-2 col-form-label col-form-label-sm width-set">workmode:</label>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control form-control-sm" value="{{{{raw}}}}{{data.settings.workmode}}{{{{/raw}}}}" id="settings-workmode" placeholder="workmode">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:center;" colspan="3">
+                            <button type="button" class="btn btn-outline-primary" id="updateSettings">修改</button>
+                        </td>
+                        <td style="text-align:center;" colspan="3">
+                            <button type="button" class="btn btn-outline-primary">写入</button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <table class="table" id="surface-set">
+                    <thead>
+                    <tr>
+                        <th scope="col" colspan="6">水面控制</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td style="text-align:center;">
+                            <label for="colFormLabelLg" style="" class="col-sm-2 col-form-label col-form-label-sm width-set">alarm_period:</label>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control form-control-sm" value="{{{{raw}}}}{{data.surfaceSettings.alarm_period}}{{{{/raw}}}}" id="surfaceSettings-alarm_period" placeholder="alarm_period">
+                        </td>
+                        <td style="text-align:center;">
+                            <label for="colFormLabelLg" style="" class="col-sm-2 col-form-label col-form-label-sm width-set">data_transfer_count:</label>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control form-control-sm" value="{{{{raw}}}}{{data.surfaceSettings.data_transfer_count}}{{{{/raw}}}}" id="surfaceSettings-data_transfer_count" placeholder="data_transfer_count">
+                        </td>
+                        <td style="text-align:center;">
+                            <label for="colFormLabelLg" style="" class="col-sm-2 col-form-label col-form-label-sm width-set">east_longitude:</label>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control form-control-sm" value="{{{{raw}}}}{{data.surfaceSettings.east_longitude}}{{{{/raw}}}}" id="surfaceSettings-east_longitude" placeholder="east_longitude">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:center;">
+                            <label for="colFormLabelLg" style="" class="col-sm-2 col-form-label col-form-label-sm width-set">latitude:</label>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control form-control-sm" value="{{{{raw}}}}{{data.surfaceSettings.latitude}}{{{{/raw}}}}" id="surfaceSettings-latitude" placeholder="latitude">
+                        </td>
+                        <td style="text-align:center;">
+                            <label for="colFormLabelLg" style="" class="col-sm-2 col-form-label col-form-label-sm width-set">longitude:</label>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control form-control-sm" value="{{{{raw}}}}{{data.surfaceSettings.longitude}}{{{{/raw}}}}" id="surfaceSettings-longitude" placeholder="longitude">
+                        </td>
+                        <td style="text-align:center;">
+                            <label for="colFormLabelLg" style="" class="col-sm-2 col-form-label col-form-label-sm width-set">navigation_error:</label>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control form-control-sm" value="{{{{raw}}}}{{data.surfaceSettings.navigation_error}}{{{{/raw}}}}" id="surfaceSettings-navigation_error" placeholder="navigation_error">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:center;">
+                            <label for="colFormLabelLg" style="" class="col-sm-2 col-form-label col-form-label-sm width-set">profile_distance:</label>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control form-control-sm" value="{{{{raw}}}}{{data.surfaceSettings.profile_distance}}{{{{/raw}}}}" id="surfaceSettings-profile_distance" placeholder="profile_distance">
+                        </td>
+                        <td style="text-align:center;">
+                            <label for="colFormLabelLg" style="" class="col-sm-2 col-form-label col-form-label-sm width-set">status_code:</label>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control form-control-sm" value="{{{{raw}}}}{{data.surfaceSettings.status_code}}{{{{/raw}}}}" id="surfaceSettings-status_code" placeholder="status_code">
+                        </td>
+                        <td style="text-align:center;">
+                            <label for="colFormLabelLg" style="" class="col-sm-2 col-form-label col-form-label-sm width-set">surface_delay:</label>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control form-control-sm" value="{{{{raw}}}}{{data.surfaceSettings.surface_delay}}{{{{/raw}}}}" id="surfaceSettings-surface_delay" placeholder="surface_delay">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:center;" colspan="3">
+                            <button type="button" class="btn btn-outline-primary" id="updateSurface">修改</button>
+                        </td>
+                        <td style="text-align:center;" colspan="3">
+                            <button type="button" class="btn btn-outline-primary">写入</button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="content4" role="tabpanel" aria-labelledby="contact-tab">
+            <div class="column">
+                <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">设备编号：{{{{raw}}}}{{data.gliderInfo.glider_id}}{{{{/raw}}}}</label>
+            </div>
+            <div class="column">
+                <table class="table" id="indicator-set">
+                    <thead>
+                    <tr>
+                        <th scope="col" colspan="2">磁罗盘设置</th>
+                        <th scope="col" colspan="2">能耗测量</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td style="text-align:center;">
+                            <label for="colFormLabelLg" style="" class="col-sm-2 col-form-label col-form-label-sm width-set">control_code:</label>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control form-control-sm" value="{{{{raw}}}}{{data.compass.control_code}}{{{{/raw}}}}" id="compass-control_code" placeholder="control_code">
+                        </td>
+                        <td style="text-align:center;">
+                            <label for="colFormLabelLg" style="" class="col-sm-2 col-form-label col-form-label-sm width-set">control_code:</label>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control form-control-sm" value="{{{{raw}}}}{{data.energy.control_code}}{{{{/raw}}}}" id="energy-control_code" placeholder="control_code">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:center;">
+                            <label for="colFormLabelLg" style="" class="col-sm-2 col-form-label col-form-label-sm width-set">heading_angle:</label>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control form-control-sm" value="{{{{raw}}}}{{data.compass.heading_angle}}{{{{/raw}}}}" id="compass-heading_angle" placeholder="heading_angle">
+                        </td>
+                        <td style="text-align:center;">
+                            <label for="colFormLabelLg" style="" class="col-sm-2 col-form-label col-form-label-sm width-set">electricity:</label>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control form-control-sm" value="{{{{raw}}}}{{data.energy.electricity}}{{{{/raw}}}}" id="energy-electricity" placeholder="electricity">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:center;">
+                            <label for="colFormLabelLg" style="" class="col-sm-2 col-form-label col-form-label-sm width-set">pitch_angle:</label>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control form-control-sm" value="{{{{raw}}}}{{data.compass.pitch_angle}}{{{{/raw}}}}" id="compass-pitch_angle" placeholder="pitch_angle">
+                        </td>
+                        <td style="text-align:center;">
+                            <label for="colFormLabelLg" style="" class="col-sm-2 col-form-label col-form-label-sm width-set">energy_consumption:</label>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control form-control-sm" value="{{{{raw}}}}{{data.energy.energy_consumption}}{{{{/raw}}}}" id="energy-energy_consumption" placeholder="energy_consumption">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:center;">
+                            <label for="colFormLabelLg" style="" class="col-sm-2 col-form-label col-form-label-sm width-set">roll_angle:</label>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control form-control-sm" value="{{{{raw}}}}{{data.compass.roll_angle}}{{{{/raw}}}}" id="compass-roll_angle" placeholder="roll_angle">
+                        </td>
+                        <td style="text-align:center;">
+                            <label for="colFormLabelLg" style="" class="col-sm-2 col-form-label col-form-label-sm width-set">voltage:</label>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control form-control-sm" value="{{{{raw}}}}{{data.energy.voltage}}{{{{/raw}}}}" id="energy-voltage" placeholder="voltage">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:center;" colspan="2">
+                            <button type="button" class="btn btn-outline-primary" id="updateCompass">修改</button>&nbsp;&nbsp;&nbsp;&nbsp;
+                            <button type="button" class="btn btn-outline-primary">写入</button>
+                        </td>
+                        <td style="text-align:center;" colspan="2">
+                            <button type="button" class="btn btn-outline-primary" id="updateSurface">修改</button>&nbsp;&nbsp;&nbsp;&nbsp;
+                            <button type="button" class="btn btn-outline-primary">写入</button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="column">
+                <table class="table" id="">
+                    <thead>
+                    <tr>
+                        <th scope="col" colspan="2">高度计</th>
+                        <th scope="col" colspan="2">深度计</th>
+                        <th scope="col" colspan="2">CTD</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td style="text-align:center;">
+                            <label for="colFormLabelLg" style="" class="col-sm-2 col-form-label col-form-label-sm width-set">control_code:</label>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control form-control-sm" value="{{{{raw}}}}{{data.altimeter.control_code}}{{{{/raw}}}}" id="altimeter-control_code" placeholder="control_code">
+                        </td>
+                        <td style="text-align:center;">
+                            <label for="colFormLabelLg" style="" class="col-sm-2 col-form-label col-form-label-sm width-set">control_code:</label>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control form-control-sm" value="{{{{raw}}}}{{data.depthometer.control_code}}{{{{/raw}}}}" id="depthometer-control_code" placeholder="control_code">
+                        </td>
+                        <td style="text-align:center;">
+                            <label for="colFormLabelLg" style="" class="col-sm-2 col-form-label col-form-label-sm width-set">control_code:</label>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control form-control-sm" value="{{{{raw}}}}{{data.ctd.control_code}}{{{{/raw}}}}" id="ctd-control_code" placeholder="control_code">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:center;">
+                            <label for="colFormLabelLg" style="" class="col-sm-2 col-form-label col-form-label-sm width-set">height:</label>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control form-control-sm" value="{{{{raw}}}}{{data.altimeter.height}}{{{{/raw}}}}" id="altimeter-height" placeholder="height">
+                        </td>
+                        <td style="text-align:center;">
+                            <label for="colFormLabelLg" style="" class="col-sm-2 col-form-label col-form-label-sm width-set">depth:</label>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control form-control-sm" value="{{{{raw}}}}{{data.depthometer.depth}}{{{{/raw}}}}" id="depthometer-depth" placeholder="depth">
+                        </td>
+                        <td style="text-align:center;">
+                            <label for="colFormLabelLg" style="" class="col-sm-2 col-form-label col-form-label-sm width-set">ctd:</label>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control form-control-sm" value="{{{{raw}}}}{{data.ctd.ctd}}{{{{/raw}}}}" id="ctd-ctd" placeholder="ctd">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:center;" colspan="2">
+                            <button type="button" class="btn btn-outline-primary" id="updateSurface">修改</button>&nbsp;&nbsp;&nbsp;&nbsp;
+                            <button type="button" class="btn btn-outline-primary">写入</button>
+                        </td>
+                        <td style="text-align:center;" colspan="2">
+                            <button type="button" class="btn btn-outline-primary" id="updateSurface">修改</button>&nbsp;&nbsp;&nbsp;&nbsp;
+                            <button type="button" class="btn btn-outline-primary">写入</button>
+                        </td>
+                        <td style="text-align:center;" colspan="2">
+                            <button type="button" class="btn btn-outline-primary" id="updateSurface">修改</button>&nbsp;&nbsp;&nbsp;&nbsp;
+                            <button type="button" class="btn btn-outline-primary">写入</button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="column">
+                <table class="table" id="">
+                    <thead>
+                    <tr>
+                        <th scope="col" colspan="2">喷泵</th>
+                        <th scope="col" colspan="2">铱星</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td style="text-align:center;">
+                            <label for="colFormLabelLg" style="" class="col-sm-2 col-form-label col-form-label-sm width-set">control_code:</label>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control form-control-sm" value="{{{{raw}}}}{{data.compressor.control_code}}{{{{/raw}}}}" id="compressor-control_code" placeholder="control_code">
+                        </td>
+                        <td style="text-align:center;">
+                            <label for="colFormLabelLg" style="" class="col-sm-2 col-form-label col-form-label-sm width-set">control_code:</label>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control form-control-sm" value="{{{{raw}}}}{{data.iridium.control_code}}{{{{/raw}}}}" id="iridium-control_code" placeholder="control_code">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:center;">
+                            <label for="colFormLabelLg" style="" class="col-sm-2 col-form-label col-form-label-sm width-set">rotation_speed:</label>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control form-control-sm" value="{{{{raw}}}}{{data.compressor.rotation_speed}}{{{{/raw}}}}" id="compressor-rotation_speed" placeholder="rotation_speed">
+                        </td>
+                        <td style="text-align:center;">
+                            <label for="colFormLabelLg" style="" class="col-sm-2 col-form-label col-form-label-sm width-set">power:</label>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control form-control-sm" value="{{{{raw}}}}{{data.iridium.power}}{{{{/raw}}}}" id="iridium-power" placeholder="power">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:center;" colspan="2">
+                            <button type="button" class="btn btn-outline-primary" id="updateCompressor">修改</button>&nbsp;&nbsp;&nbsp;&nbsp;
+                            <button type="button" class="btn btn-outline-primary">写入</button>
+                        </td>
+                        <td style="text-align:center;" colspan="2">
+                            <button type="button" class="btn btn-outline-primary" id="updateIridium">修改</button>&nbsp;&nbsp;&nbsp;&nbsp;
+                            <button type="button" class="btn btn-outline-primary">写入</button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="column">
+                <table class="table" id="">
+                    <thead>
+                    <tr>
+                        <th scope="col" colspan="2">浮力调节</th>
+                        <th scope="col" colspan="2">AIS</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td style="text-align:center;">
+                            <label for="colFormLabelLg" style="" class="col-sm-2 col-form-label col-form-label-sm width-set">control_code:</label>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control form-control-sm" value="{{{{raw}}}}{{data.buoyancy.control_code}}{{{{/raw}}}}" id="buoyancy-control_code" placeholder="control_code">
+                        </td>
+                        <td style="text-align:center;">
+                            <label for="colFormLabelLg" style="" class="col-sm-2 col-form-label col-form-label-sm width-set">control_code:</label>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control form-control-sm" value="{{{{raw}}}}{{data.ais.control_code}}{{{{/raw}}}}" id="ais-control_code" placeholder="control_code">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:center;">
+                            <label for="colFormLabelLg" style="" class="col-sm-2 col-form-label col-form-label-sm width-set">status_code:</label>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control form-control-sm" value="{{{{raw}}}}{{data.buoyancy.status_code}}{{{{/raw}}}}" id="buoyancy-status_code" placeholder="status_code">
+                        </td>
+                        <td style="text-align:center;">
+                            <label for="colFormLabelLg" style="" class="col-sm-2 col-form-label col-form-label-sm width-set">latest_boat_distance:</label>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control form-control-sm" value="{{{{raw}}}}{{data.ais.latest_boat_distance}}{{{{/raw}}}}" id="ais-latest_boat_distance" placeholder="latest_boat_distance">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:center;">
+                            <label for="colFormLabelLg" style="" class="col-sm-2 col-form-label col-form-label-sm width-set">volume_ro:</label>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control form-control-sm" value="{{{{raw}}}}{{data.buoyancy.volume_ro}}{{{{/raw}}}}" id="buoyancy-volume_ro" placeholder="volume_ro">
+                        </td>
+                        <td style="text-align:center;">
+                            <label for="colFormLabelLg" style="" class="col-sm-2 col-form-label col-form-label-sm width-set">mmsi_code:</label>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control form-control-sm" value="{{{{raw}}}}{{data.ais.mmsi_code}}{{{{/raw}}}}" id="ais-mmsi_code" placeholder="mmsi_code">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:center;">
+                            <label for="colFormLabelLg" style="" class="col-sm-2 col-form-label col-form-label-sm width-set">volume_rw:</label>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control form-control-sm" value="{{{{raw}}}}{{data.buoyancy.volume_rw}}{{{{/raw}}}}" id="buoyancy-volume_rw" placeholder="volume_rw">
+                        </td>
+                        <td style="text-align:center;">
+    
+                        </td>
+                        <td>
+    
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:center;" colspan="2">
+                            <button type="button" class="btn btn-outline-primary" id="updateBuoyancy">修改</button>&nbsp;&nbsp;&nbsp;&nbsp;
+                            <button type="button" class="btn btn-outline-primary">写入</button>
+                        </td>
+                        <td style="text-align:center;" colspan="2">
+                            <button type="button" class="btn btn-outline-primary" id="updateIridium">修改</button>&nbsp;&nbsp;&nbsp;&nbsp;
+                            <button type="button" class="btn btn-outline-primary">写入</button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="column">
+                <table class="table" id="">
+                    <thead>
+                    <tr>
+                        <th scope="col" colspan="2">方向舵</th>
+                        <th scope="col" colspan="2">北斗BD</th>
+                        <th scope="col" colspan="2">质心调节</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td style="text-align:center;">
+                            <label for="colFormLabelLg" style="" class="col-sm-2 col-form-label col-form-label-sm width-set">control_code:</label>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control form-control-sm" value="{{{{raw}}}}{{data.rudder.control_code}}{{{{/raw}}}}" id="rudder-control_code" placeholder="control_code">
+                        </td>
+                        <td style="text-align:center;">
+                            <label for="colFormLabelLg" style="" class="col-sm-2 col-form-label col-form-label-sm width-set">control_code:</label>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control form-control-sm" value="{{{{raw}}}}{{data.bd.control_code}}{{{{/raw}}}}" id="bd-control_code" placeholder="control_code">
+                        </td>
+                        <td style="text-align:center;">
+                            <label for="colFormLabelLg" style="" class="col-sm-2 col-form-label col-form-label-sm width-set">control_code:</label>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control form-control-sm" value="{{{{raw}}}}{{data.centroid.control_code}}{{{{/raw}}}}" id="centroid-control_code" placeholder="control_code">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:center;">
+                            <label for="colFormLabelLg" style="" class="col-sm-2 col-form-label col-form-label-sm width-set">rotation_angle_ro:</label>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control form-control-sm" value="{{{{raw}}}}{{data.rudder.rotation_angle_ro}}{{{{/raw}}}}" id="rudder-rotation_angle_ro" placeholder="rotation_angle_ro">
+                        </td>
+                        <td style="text-align:center;">
+                            <label for="colFormLabelLg" style="" class="col-sm-2 col-form-label col-form-label-sm width-set">ic_number:</label>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control form-control-sm" value="{{{{raw}}}}{{data.bd.ic_number}}{{{{/raw}}}}" id="bd-ic_number" placeholder="ic_number">
+                        </td>
+                        <td style="text-align:center;">
+                            <label for="colFormLabelLg" style="" class="col-sm-2 col-form-label col-form-label-sm width-set">angle:</label>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control form-control-sm" value="{{{{raw}}}}{{data.centroid.angle}}{{{{/raw}}}}" id="centroid-angle" placeholder="angle">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:center;">
+                            <label for="colFormLabelLg" style="" class="col-sm-2 col-form-label col-form-label-sm width-set">rotation_angle_rw:</label>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control form-control-sm" value="{{{{raw}}}}{{data.rudder.rotation_angle_rw}}{{{{/raw}}}}" id="rudder-rotation_angle_rw" placeholder="rotation_angle_rw">
+                        </td>
+                        <td style="text-align:center;">
+                            <label for="colFormLabelLg" style="" class="col-sm-2 col-form-label col-form-label-sm width-set">latitude:</label>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control form-control-sm" value="{{{{raw}}}}{{data.bd.latitude}}{{{{/raw}}}}" id="bd-latitude" placeholder="latitude">
+                        </td>
+                        <td style="text-align:center;">
+                            <label for="colFormLabelLg" style="" class="col-sm-2 col-form-label col-form-label-sm width-set">angle_speed:</label>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control form-control-sm" value="{{{{raw}}}}{{data.centroid.angle_speed}}{{{{/raw}}}}" id="centroid-angle_speed" placeholder="angle_speed">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:center;">
+                            <label for="colFormLabelLg" style="" class="col-sm-2 col-form-label col-form-label-sm width-set">rotation_speed_ro:</label>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control form-control-sm" value="{{{{raw}}}}{{data.rudder.rotation_speed_ro}}{{{{/raw}}}}" id="rudder-rotation_speed_ro" placeholder="rotation_speed_ro">
+                        </td>
+                        <td style="text-align:center;">
+                            <label for="colFormLabelLg" style="" class="col-sm-2 col-form-label col-form-label-sm width-set">longitude:</label>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control form-control-sm" value="{{{{raw}}}}{{data.bd.longitude}}{{{{/raw}}}}" id="bd-longitude" placeholder="longitude">
+                        </td>
+                        <td style="text-align:center;">
+                            <label for="colFormLabelLg" style="" class="col-sm-2 col-form-label col-form-label-sm width-set">angle_target:</label>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control form-control-sm" value="{{{{raw}}}}{{data.centroid.angle_target}}{{{{/raw}}}}" id="centroid-angle_target" placeholder="angle_target">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:center;">
+                            <label for="colFormLabelLg" style="" class="col-sm-2 col-form-label col-form-label-sm width-set">rotation_speed_rw:</label>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control form-control-sm" value="{{{{raw}}}}{{data.rudder.rotation_speed_rw}}{{{{/raw}}}}" id="rudder-rotation_speed_rw" placeholder="rotation_speed_rw">
+                        </td>
+                        <td style="text-align:center;">
+                            <label for="colFormLabelLg" style="" class="col-sm-2 col-form-label col-form-label-sm width-set">orientation:</label>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control form-control-sm" value="{{{{raw}}}}{{data.bd.orientation}}{{{{/raw}}}}" id="bd-orientation" placeholder="orientation">
+                        </td>
+                        <td style="text-align:center;">
+                            <label for="colFormLabelLg" style="" class="col-sm-2 col-form-label col-form-label-sm width-set">displacement:</label>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control form-control-sm" value="{{{{raw}}}}{{data.centroid.displacement}}{{{{/raw}}}}" id="centroid-displacement" placeholder="displacement">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:center;">
+                        </td>
+                        <td style="text-align:center;">
+                        </td>
+                        <td style="text-align:center;">
+                            <label for="colFormLabelLg" style="" class="col-sm-2 col-form-label col-form-label-sm width-set">power:</label>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control form-control-sm" value="{{{{raw}}}}{{data.bd.power}}{{{{/raw}}}}" id="bd-power" placeholder="power">
+                        </td>
+                        <td style="text-align:center;">
+                            <label for="colFormLabelLg" style="" class="col-sm-2 col-form-label col-form-label-sm width-set">displacement_speed:</label>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control form-control-sm" value="{{{{raw}}}}{{data.centroid.displacement_speed}}{{{{/raw}}}}" id="centroid-displacement_speed" placeholder="displacement_speed">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:center;">
+                        </td>
+                        <td style="text-align:center;">
+                        </td>
+                        <td style="text-align:center;">
+                        </td>
+                        <td style="text-align:center;">
+                        </td>
+                        <td style="text-align:center;">
+                            <label for="colFormLabelLg" style="" class="col-sm-2 col-form-label col-form-label-sm width-set">displacement_target:</label>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control form-control-sm" value="{{{{raw}}}}{{data.centroid.displacement_target}}{{{{/raw}}}}" id="centroid-displacement_target" placeholder="displacement_target">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:center;">
+                        </td>
+                        <td style="text-align:center;">
+                        </td>
+                        <td style="text-align:center;">
+                        </td>
+                        <td style="text-align:center;">
+                        </td>
+                        <td style="text-align:center;">
+                            <label for="colFormLabelLg" style="" class="col-sm-2 col-form-label col-form-label-sm width-set">status_code:</label>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control form-control-sm" value="{{{{raw}}}}{{data.centroid.status_code}}{{{{/raw}}}}" id="centroid-status_code" placeholder="status_code">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:center;" colspan="2" rowspan="4">
+                            <button type="button" class="btn btn-outline-primary" id="updateRudder">修改</button>&nbsp;&nbsp;&nbsp;&nbsp;
+                            <button type="button" class="btn btn-outline-primary">写入</button>
+                        </td>
+                        <td style="text-align:center;" colspan="2" rowspan="3">
+                            <button type="button" class="btn btn-outline-primary" id="updateBD">修改</button>&nbsp;&nbsp;&nbsp;&nbsp;
+                            <button type="button" class="btn btn-outline-primary">写入</button>
+                        </td>
+                        <td style="text-align:center;" colspan="2">
+                            <button type="button" class="btn btn-outline-primary" id="updateCentroid">修改</button>&nbsp;&nbsp;&nbsp;&nbsp;
+                            <button type="button" class="btn btn-outline-primary">写入</button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="content5" role="tabpanel" aria-labelledby="contact-tab">content 5</div>
+        <div class="tab-pane fade" id="content6" role="tabpanel" aria-labelledby="contact-tab">content 6</div>
+    </div>

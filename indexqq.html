@@ -1,0 +1,102 @@
+{{#extend 'styles'}}
+<link rel="stylesheet" href="./stylesheets/index.css" />
+{{/extend}}
+{{#extend 'scripts'}}
+<script type="text/javascript" src="./javascripts/index.js"></script>
+<script type="text/javascript" src="./javascripts/handlebars-v4.0.11.js"></script>
+<script type="text/x-handlerbars-template" id="tabTemplate">
+  <ul class="nav nav-tabs" id="myTab" role="tablist">
+      <li class="nav-item">
+        <a class="nav-link active" id="content1-tab" data-toggle="tab" href="#content1" role="tab" aria-controls="content1" aria-selected="true">航路管理</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="content2-tab" data-toggle="tab" href="#content2" role="tab" aria-controls="content2" aria-selected="false">实时任务简报</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="content3-tab" data-toggle="tab" href="#content3" role="tab" aria-controls="content3" aria-selected="false">基础设施</a>
+      </li>
+      <li class="nav-item">
+          <a class="nav-link" id="content4-tab" data-toggle="tab" href="#content4" role="tab" aria-controls="content4" aria-selected="false">设备检测</a>
+      </li>
+      <li class="nav-item">
+          <a class="nav-link" id="content5-tab" data-toggle="tab" href="#content5" role="tab" aria-controls="content5" aria-selected="false">历史任务简报</a>
+      </li>
+      <li class="nav-item">
+          <a class="nav-link" id="content6-tab" data-toggle="tab" href="#content6" role="tab" aria-controls="content6" aria-selected="false">仿真测试</a>
+      </li>
+    </ul>
+    <div class="tab-content sub-tab-content" id="myTabContent">
+      <div class="tab-pane fade show active" id="content1" role="tabpanel" aria-labelledby="home-tab">
+        content1</div>
+      <div class="tab-pane fade" id="content2" role="tabpanel" aria-labelledby="profile-tab">
+          content 2
+      </div>
+      <div class="tab-pane fade" id="content3" role="tabpanel" aria-labelledby="contact-tab">{{{{raw}}}}{{title}}{{{{/raw}}}}</div>
+      <div class="tab-pane fade" id="content4" role="tabpanel" aria-labelledby="contact-tab">content 40</div>
+      <div class="tab-pane fade" id="content5" role="tabpanel" aria-labelledby="contact-tab">content 5</div>
+      <div class="tab-pane fade" id="content6" role="tabpanel" aria-labelledby="contact-tab">content 6</div>
+    </div>
+
+</script>
+{{/extend}}
+
+<div class="container modify">
+<div class="row">
+    <div class="col-3 left-side">
+      <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+        <a class="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true">滑翔机1</a>
+        <a class="nav-link" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false">滑翔机2</a>
+        <a class="nav-link" id="v-pills-messages-tab" data-toggle="pill" href="#v-pills-messages" role="tab" aria-controls="v-pills-messages" aria-selected="false">滑翔机3</a>
+        <a class="nav-link" id="v-pills-settings-tab" data-toggle="pill" href="#v-pills-settings" role="tab" aria-controls="v-pills-settings" aria-selected="false">滑翔机4</a>
+      </div>
+    </div>
+    <div class="col-9">
+      <div class="tab-content" id="v-pills-tabContent">
+        <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
+
+            <!-- <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item">
+                  <a class="nav-link active" id="content1-tab" data-toggle="tab" href="#content1" role="tab" aria-controls="content1" aria-selected="true">航路管理</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" id="content2-tab" data-toggle="tab" href="#content2" role="tab" aria-controls="content2" aria-selected="false">实时任务简报</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" id="content3-tab" data-toggle="tab" href="#content3" role="tab" aria-controls="content3" aria-selected="false">基础设施</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="content4-tab" data-toggle="tab" href="#content4" role="tab" aria-controls="content4" aria-selected="false">设备检测</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="content5-tab" data-toggle="tab" href="#content5" role="tab" aria-controls="content5" aria-selected="false">历史任务简报</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="content6-tab" data-toggle="tab" href="#content6" role="tab" aria-controls="content6" aria-selected="false">仿真测试</a>
+                </li>
+              </ul>
+              <div class="tab-content sub-tab-content" id="myTabContent">
+                <div class="tab-pane fade show active" id="content1" role="tabpanel" aria-labelledby="home-tab">
+                  content1</div>
+                <div class="tab-pane fade" id="content2" role="tabpanel" aria-labelledby="profile-tab">
+                    content 2
+                </div>
+                <div class="tab-pane fade" id="content3" role="tabpanel" aria-labelledby="contact-tab">content 30{{{{raw}}}}{{title}}{{{{/raw}}}}</div>
+                <div class="tab-pane fade" id="content4" role="tabpanel" aria-labelledby="contact-tab">content 40</div>
+                <div class="tab-pane fade" id="content5" role="tabpanel" aria-labelledby="contact-tab">content 5</div>
+                <div class="tab-pane fade" id="content6" role="tabpanel" aria-labelledby="contact-tab">content 6</div>
+              </div> -->
+
+        </div>
+        <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
+            adddb
+        </div>
+        <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">
+            dfwef
+        </div>
+        <div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab">
+          sdfsfdsdf
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

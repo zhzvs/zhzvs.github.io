@@ -1,0 +1,271 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title>Raphaël · Curver</title>
+        <link rel="stylesheet" href="http://dmitrybaranovskiy.github.io/raphael/demo.css" type="text/css" media="screen">
+        <link rel="stylesheet" href="http://dmitrybaranovskiy.github.io/raphael/demo-print.css" type="text/css" media="print">
+        <style>
+        body{padding: 0px; padding-top: 500px;}
+        </style>
+        <script src="../javascripts/raphael.min.js" type="text/javascript" charset="utf-8"></script>
+        <script type="text/javascript" charset="utf-8">
+            window.onload = function () {
+
+                // var yy = Raphael('myholder', 300, 300);
+                // yy.rect(0, 0, 299, 299, 10).attr({stroke: 'red'});
+                // let elem = yy.circle(50, 50, 5).attr({fill: "#f00", stroke: '#000'});
+                // elem.click(function(x, y) {
+                //     console.log(this, x, y);
+                // });
+                // yy.set([yy.path([
+                //     ['M', 10, 10], 
+                //     ["L", 90, 190]
+                // ]).attr({stroke:'#0ff'}), elem]);
+                
+
+                var r = Raphael("holder", 620, 420),
+                    discattr = {fill: "#fff", stroke: "#f00"};
+                    r.image("images/Desert.jpg", 10, 50, 100, 100);
+                r.rect(0, 0, 619, 419, 10).attr({stroke: "#999"});
+                r.text(310, 20, "Drag the points to change the curves").attr({fill: "#fff", "font-size": 16});
+                function curve(x, y, ax, ay, bx, by, zx, zy, color) {
+                    var path = [["M", x, y]],
+                        path2 = [["M", x, y], ["L", ax, ay], ["M", bx, by], ["L", zx, zy]],
+                        // curve = r.path(path).attr({stroke: color || Raphael.getColor(), "stroke-width": 4, "stroke-linecap": "round"}),
+                        controls = r.set(
+                            r.path(path2).attr({stroke: "#ccc", "stroke-dasharray": ". "}),
+                            r.circle(x, y, 5).attr(discattr),
+                            r.circle(ax, ay, 5).attr(discattr),
+                            // r.circle(bx, by, 5).attr(discattr),
+                            // r.circle(zx, zy, 5).attr(discattr)
+                        );
+                    controls[1].update = function (x, y) { //alert('ddd');
+                        // var X = this.attr("cx") + x,
+                        //     Y = this.attr("cy") + y;
+                        var X = x;
+                        var Y = y;
+                        this.attr({cx: X, cy: Y});
+                        // path[0][1] = X;
+                        // path[0][2] = Y;
+                        // path2[0][1] = X;
+                        // path2[0][2] = Y;
+                        // controls[2].update(x, y);
+                    };
+                    // controls[2].update = function (x, y) {
+                    //     var X = this.attr("cx") + x,
+                    //         Y = this.attr("cy") + y;
+                    //     this.attr({cx: X, cy: Y});
+                    //     path[1][1] = X;
+                    //     path[1][2] = Y;
+                    //     path2[1][1] = X;
+                    //     path2[1][2] = Y;
+                    //     curve.attr({path: path});
+                    //     controls[0].attr({path: path2});
+                    // };
+                    // controls[3].update = function (x, y) {
+                    //     var X = this.attr("cx") + x,
+                    //         Y = this.attr("cy") + y;
+                    //     this.attr({cx: X, cy: Y});
+                    //     path[1][3] = X;
+                    //     path[1][4] = Y;
+                    //     path2[2][1] = X;
+                    //     path2[2][2] = Y;
+                    //     curve.attr({path: path});
+                    //     controls[0].attr({path: path2});
+                    // };
+                    // controls[4].update = function (x, y) {
+                    //     var X = this.attr("cx") + x,
+                    //         Y = this.attr("cy") + y;
+                    //     this.attr({cx: X, cy: Y});
+                    //     path[1][5] = X;
+                    //     path[1][6] = Y;
+                    //     path2[3][1] = X;
+                    //     path2[3][2] = Y;
+                    //     controls[3].update(x, y);
+                    // };
+                    controls.drag(move, up);
+                }
+                function move(dx, dy) {//alert('move');
+
+                    this.update(dx - (this.dx || 0), dy - (this.dy || 0));
+            //         this.dx = dx;
+            //         this.dy = dy;
+
+                    this.update(dx, dy);
+                    this.dx = dx;
+                    this.dy = dy;
+                }
+                function up(x, y) {console.log('x:', x, 'Y;', y);
+                    // this.dx = x;
+                    // this.dy = y;
+                    this.dx = this.dy = 0;
+                }
+                curve(270, 80, 110, 40, 130, 200, 170, 200, "hsb(0, .75, .75)");
+            };
+        </script>
+    </head>
+    <body>
+        <!-- <br /><br /><br /><br /> -->
+        <button id="startDraw">start drawing</button>&nbsp;&nbsp;<button type ='button' value='finish drawing' id="finishDraw">finish drawing</button>
+        <br /><br /><br /><br />&nbsp;&nbsp;<button type ='button' id="clearGrids">clear grids</button>
+        &nbsp;&nbsp;<button type ='button' id="drawGrids">draw grids</button>
+        <div id="tips" style="color: red"></div>
+            <div id="myholder" style="margin: 50px 0 0 50px; background-color:blue"></div>
+        <div id="holder"></div>
+        <p id="copy">Demo of <a href="http://raphaeljs.com/">Raphaël</a>—JavaScript Vector Library</p>
+    </body>
+    <script>
+        var dom = document.getElementById('myholder');
+        let Utils = {
+            init: function(Raphael, idString, width, height, attrOptions) {
+                Utils.r = Raphael(idString, width, height);
+                Utils.r.rect(0, 0, width - 1, height - 1).attr(attrOptions);
+                Utils.path = []; //存储路径
+                Utils.startDrawLine = false;  
+                Utils.elementIndex = 0;
+                Utils.setArray = Utils.r.set();//画的圈的元素集合
+                Utils.initClientBox(document.getElementById(idString));
+                Utils.lineElmentArray = [];//画的线段元素的集合
+                Utils.panelWidth = width;
+                Utils.panelHeight = height;
+                Utils.gridsElementArray = [];//存储网格元素
+                Utils.drawGrids(30);
+            },
+            click: function(e) {
+                var posX = e.x - Utils.clientboxInfo.left;
+                var posY = e.y - Utils.clientboxInfo.top;
+                Utils.drawCircle(posX, posY, 5);
+                Utils.drawLine(posX, posY);
+                Utils.setArray.drag(Utils.dragMoveEvent, Utils.dragStartEvent);
+            },
+            initClientBox: function(dom) {
+                var clientbox = dom.getBoundingClientRect();
+                Utils.clientboxInfo = {left: clientbox.x, top: clientbox.y};
+            },
+            getPositionByMouseEvent: function(e){
+                var posX = e.x - Utils.clientboxInfo.left;
+                var posY = e.y - Utils.clientboxInfo.top;
+                return {posX: posX, posY: posY};
+            },
+            loopMoveEvents: function(obj){
+                    for(var prop in Utils.setArray) {
+                        var elem = Utils.setArray[prop];
+                        elem.update = function(pos) {
+                            // console.log('loop:', {cx: this.attr('cx') + dx, cy: this.attr('cy') + dy});
+                            this.attr({cx: pos.posX, cy: pos.posY});
+                            Utils.path[this.elementIndex][0] = pos.posX;
+                            Utils.path[this.elementIndex][1] = pos.posY;
+                            if (this.elementIndex == 0) {   //调整第一条线段
+                                Utils.lineElmentArray[this.elementIndex].remove();
+                                Utils.lineElmentArray[this.elementIndex] = Utils.r.path([['M', pos.posX, pos.posY], ['L', Utils.path[this.elementIndex + 1][0], Utils.path[this.elementIndex + 1][1]]]).attr(Utils.lineInitOptions);
+                            } else if(this.elementIndex == Utils.path.length - 1){  //调整中间线段
+                                Utils.lineElmentArray[this.elementIndex - 1].remove();
+                                Utils.lineElmentArray[this.elementIndex - 1] = Utils.r.path([['M', Utils.path[this.elementIndex - 1][0], Utils.path[this.elementIndex - 1][1]], ['L', pos.posX, pos.posY]]).attr(Utils.lineInitOptions);
+                            } else {    //调整最后一条线段
+                                Utils.lineElmentArray[this.elementIndex].remove();
+                                Utils.lineElmentArray[this.elementIndex - 1].remove();
+                                Utils.lineElmentArray[this.elementIndex] = Utils.r.path([['M', pos.posX, pos.posY], ['L', Utils.path[this.elementIndex + 1][0], Utils.path[this.elementIndex + 1][1]]]).attr(Utils.lineInitOptions);
+                                Utils.lineElmentArray[this.elementIndex - 1] = Utils.r.path([['M', Utils.path[this.elementIndex - 1][0], Utils.path[this.elementIndex - 1][1]], ['L', pos.posX, pos.posY]]).attr(Utils.lineInitOptions);
+                                // Utils.drawLineForUpdate(Utils.lineElmentArray[this.elementIndex][0], Utils.lineElmentArray[this.elementIndex][1], pos.posX, pos.posY);
+                            }
+                        }
+                    }
+            },
+
+            dragMoveEvent: function(dx, dy, ex, ey, e) {
+                this.dx = 0;
+                this.dy = 0;
+                this.update(Utils.getPositionByMouseEvent(e));
+            },
+            dragStartEvent: function() {
+                this.dx = this.dy = 0;
+            },
+            //连线：
+            drawLine: function(posX, posY) {
+                if(!Utils.startDrawLine) { //画第一个圆：
+                       Utils.startDrawLine = true;
+
+                    Utils.startPoint = posX;
+                    Utils.endPoint = posY;
+                    Utils.path.push([posX, posY]);
+                } else { //画后面的圆，连线：
+                //    Utils.path.push(['L', posX, posY]);
+                //    Utils.r.path(Utils.path).attr(Utils.lineInitOptions);
+                    
+                    var path = [['M', Utils.startPoint, Utils.endPoint], ['L', posX, posY]];
+                    Utils.lineElmentArray.push(Utils.r.path(path).attr(Utils.lineInitOptions));
+                    Utils.startPoint = posX;
+                    Utils.endPoint = posY;
+                    Utils.path.push([posX, posY]);
+                }
+            },
+            drawGrids: function(size){
+                //画水平线
+                let hLineNumber = Math.floor(Utils.panelHeight/size);
+                for(var i =  1; i <= hLineNumber; i ++) {
+                    Utils.gridsElementArray.push(Utils.drawLineForUpdate(0, i * size, Utils.panelWidth, i * size)); // 0, 10, w, 10
+                    Utils.gridsElementArray.push(Utils.drawLineForUpdate(i * size, 0, i * size, Utils.panelWidth));
+                }
+            },
+            clearGrids: function() {console.log('uti:', Utils.gridsElementArray);
+                for(var p in Utils.gridsElementArray) {
+                    Utils.gridsElementArray[p].remove();
+                }
+                Utils.gridsElementArray = [];
+            },
+            drawLineForUpdate: function(startX, startY, endX, endY) {
+                return Utils.r.path([['M', startX, startY], ['L', endX, endY]]).attr(Utils.gridLineInitOptions);
+            },
+
+            //圆圈的基本设置
+            circleInitOptions: {fill: "#f00", stroke: false},
+
+            //画线的基本设置：
+            lineInitOptions: {stroke: "red", "stroke-dasharray": ". "},
+
+            gridLineInitOptions: {stroke: "#dedede", "stroke-dasharray": ". "},
+
+            elementMouseOverEvent: function() {
+                let tips = document.getElementById('tips');
+                Utils.setArray.forEach(function(elem, index) {
+                    elem.mouseover(function(){
+                        console.log(Utils.path[this.elementIndex].join(' '));
+                        tips.innerHTML = Utils.path[this.elementIndex].join(' ');
+                    });
+                });
+            },
+
+            drawCircle: function(x, y, boundInt, options) {
+                if (!options) {
+                    options = Utils.circleInitOptions;
+                }
+                var elem = Utils.r.circle(x, y, boundInt).attr(options);
+                elem.elementIndex = Utils.elementIndex ++;
+                Utils.setArray.push(elem);
+                console.log(elem);
+            }
+        };
+        Utils.init(Raphael, 'myholder', 300, 300, {fill: "#fff", stroke: '#f00'});
+        document.getElementById('startDraw').onclick = function() {
+            dom.onclick = Utils.click;
+            this.disabled = true;
+            document.getElementById('finishDraw').disabled = false;
+        }
+        document.getElementById('finishDraw').onclick = function() {
+            dom.onclick = null;
+            alert('finished');
+            this.disabled = true;
+            Utils.loopMoveEvents();
+            Utils.elementMouseOverEvent();
+        }
+        document.getElementById('clearGrids').onclick = function() {
+            Utils.clearGrids();
+        };
+        document.getElementById('drawGrids').onclick = function() {
+            Utils.drawGrids(40);
+        };
+        
+    </script>
+</html>
