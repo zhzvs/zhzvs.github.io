@@ -26,7 +26,8 @@ var requestOptions = {
     connection: host + '/api/v1/glider/:id/serial/connection',
     writeRegister: host + '/api/v1/glider/:id/:module/writeRegisters',
     bdiridiumconnection: host + '/api/v1/glider/:id/bdserial/connection',
-    readRegisters: host + '/api/v1/glider/:id/:module/readRegisters'
+    readRegisters: host + '/api/v1/glider/:id/:module/readRegisters',
+    missionBriafs: host + '/api/v1/glider/missionBriafs'
 };
 //基础函数
 function fillData(data, templateId, htmlId) {

@@ -3,6 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
     <title>body Title0011110</title>
     <link rel="stylesheet" href="./public/stylesheets/bootstrap.min.css" />
     <link rel="stylesheet" href="./public/stylesheets/style.css" />
@@ -155,30 +156,29 @@
 </ul>
 <div class="tab-content sub-tab-content" id="myTabContent">
     <div class="tab-pane fade show active" id="content1" role="tabpanel" aria-labelledby="home-tab">
-        <div class="btn-group map-button-group" role="group" aria-label="Basic example">
-            <button id="startDraw"  class="btn btn-secondary btn-sm">开始绘制路径</button>&nbsp;&nbsp;
-            <button type ='button' class="btn btn-secondary btn-sm" id="finishDraw">结束绘制路径</button>&nbsp;&nbsp;
-            <button type ='button'  class="btn btn-secondary btn-sm" id="savePath"  data-toggle="modal" data-target="#showModalInput">保存路径</button>&nbsp;&nbsp;
-            <button type ='button' id="clear"  class="btn btn-secondary btn-sm">清除</button>
-            <div class="tips">
-                <span>N:</span><input type="text" class="form-control showcoodinate" placeholder="N" id='N'>
-                <span>E:</span><input type="text" class="form-control showcoodinate" placeholder="E" id='E'>
+        <div class="clearfix">
+            <div class="btn-group map-button-group" role="group" aria-label="Basic example" style="float:left; width:610px;">
+                <button id="startDraw"  class="btn btn-secondary btn-sm">开始绘制路径</button>&nbsp;&nbsp;
+                <button type ='button' class="btn btn-secondary btn-sm" id="finishDraw">结束绘制路径</button>&nbsp;&nbsp;
+                <button type ='button'  class="btn btn-secondary btn-sm" id="savePath"  data-toggle="modal" data-target="#showModalInput">保存路径</button>&nbsp;&nbsp;
+                <button type ='button' id="clear"  class="btn btn-secondary btn-sm">清除</button>
+                <div class="tips">
+                    <span>N:</span><input type="text" class="form-control showcoodinate" placeholder="N" id='N'>
+                    <span>E:</span><input type="text" class="form-control showcoodinate" placeholder="E" id='E'>
+                </div>
+            </div>
+            <div class="form-group tips">
+                <label for="exampleFormControlSelect1" style="float: left; width:70px; padding-top:8px;">选择航迹：</label>
+                <select class="form-control form-control-sm" id="seawayDropDownList" style="float: left; width:100px;">
+                    <option value="0" select>请选择</option>
+                    {{#each seawayList}}
+                    <option value="{{seaway_id}}">{{name}}</option>
+                    {{/each}}
+                </select>
+                <button type="button" class="btn btn-secondary btn-sm" id="importPath">导入</button>&nbsp;<button type="button" class="btn btn-secondary btn-sm" id="deletePath">删除</button>
             </div>
         </div>
-        <div class="form-group tips">
-            <label for="exampleFormControlSelect1">选择航迹：</label>
-            <select class="form-control form-control-sm" id="seawayDropDownList">
-                <option value="0" select>请选择</option>
-                {{#each seawayList}}
-                <option value="{{seaway_id}}">{{name}}</option>
-                {{/each}}
-            </select>
-            <button type="button" class="btn btn-secondary btn-sm" id="importPath">导入</button>&nbsp;<button type="button" class="btn btn-secondary btn-sm" id="deletePath">删除</button>
-        </div>
         <div id='map'></div>
-        <div class="card" styles='width: 100%;'>
-            <div class="card-body" id='showGeography'></div>
-        </div>
     </div>
     <div class="tab-pane fade" id="content2" role="tabpanel" aria-labelledby="profile-tab">
         content 2
