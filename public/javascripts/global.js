@@ -1,4 +1,4 @@
-var host = 'http://47.105.43.18:8000';
+var host = '47.105.43.18:8000';
 var requestOptions = {
     gliderList: host + '/api/v1/gliders',
     gliderAdd: host + '/api/v1/gliders/',
