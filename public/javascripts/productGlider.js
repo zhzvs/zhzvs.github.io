@@ -223,7 +223,7 @@ $(document).ready(function() {
             Utils.r.remove();
             document.getElementById('startDraw').disabled = false;
             dom.onclick = null;
-            document.getElementById('showGeography').innerHTML = '';
+            // document.getElementById('showGeography').innerHTML = '';
             Utils.init(Raphael, 'map', mapOptions);
             $('#success').text('清除成功！').slideDown(800, function() {
                 $(this).hide();

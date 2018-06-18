@@ -1,0 +1,186 @@
+
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>errot-title</title>
+    
+    <script type="text/javascript" src="./public/javascripts/handlebars-v4.0.11.js"></script>
+    <script type="text/x-handlebars-template" id="form-string">
+        <label for="inputEmail3" class="col-sm-4 col-form-label">{{text}}:</label>
+        <div class="col-sm-8">
+            <input type="text" class="form-control form-control-sm" id="{{module_name}}-{{key}}" value="{{value}}" placeholder="{{key}}">
+        </div>
+    </script>
+    <script type="text/x-handlebars-template" id="form-radio">
+        <label for="inputEmail3" class="col-sm-4 col-form-label">{{text}}:</label>
+        <div class="col-sm-8">
+            {{#each radios}}
+            <input type="radio" class="form-control form-control-sm" name="{{../module_name}}-{{../key}}" value="{{0}}" {{#if checked}}checked{{/if}}>
+            <label class="form-check-label" for="inlineRadio1">{{1}}</label>
+            {{/each}}
+        </div>
+    </script>
+    <script type="text/x-handlebars-template" id="form-select">
+        <label for="exampleFormControlSelect1">{{text}}:</label>    
+        <div class="col-sm-8">
+            <select class="form-control" id="exampleFormControlSelect1">
+                {{#each selects}}
+                    <option {{#if selected}}selected = "selected"{{/if}} name="{{../module_name}}-{{../key}}" value="{{0}}">{{1}}</option>
+                {{/each}}
+            </select>
+        </div>
+    </script>
+    <script type="text/x-handlebars-template" id="form-checkbox">
+        <label for="inputEmail3" class="col-sm-4 col-form-label">{{text}}:</label>
+        <div class="col-sm-8">
+            {{#each checkboxes}}
+            <input type="checkbox" class="form-control form-control-sm" id="{{module_name}}-{{key}}" value="{{0}}" placeholder="{{key}}" {{#if checked}}checked{{/if}}>
+            <label class="form-check-label" for="inlineCheckbox1">{{1}}</label>
+            {{/each}}
+        </div>
+    </script>
+    <script type="text/x-handlebars-template" id = "form_template">
+        {{#form}}{{/form}}
+    </script>
+    <script type="text/x-handlebars-template" id = "form_schema">
+        <div>{{formSchema opt2 style="float: left;width: 600px;" module_name="opt2"}}</div>
+        <p>kkd</p>
+        <div>{{formSchema opt1 style="float: left;width: 600px;" module_name="opt1"}}</div>
+    </script>
+  </head>
+  <body>
+    <div id="form">
+            <label for="inputEmail3" class="col-sm-4 col-form-label">{{text}}:</label>
+            <div class="col-sm-8">
+                <input type="text" class="form-control form-control-sm" id="{{module_name}}-{{key}}" value="{{value}}" placeholder="{{key}}">
+            </div>
+    </div>
+    <script>
+        var paramsConfig = {
+            name: {
+                text: '姓名',
+                type: 'string'
+            },
+            sex: {
+                text: '性别',
+                type: 'radio',
+                radios: [[1, '男'], [0, '女']]
+            },
+            degree: {
+                text: '学历',
+                type: 'select',
+                selects: [[0, '请选择'], [1, '初中'], [2, '高中']]
+            },
+            intrest: {
+                text: '兴趣',
+                type: 'checkbox',
+                checkboxes: [[1, '足球'], [2, '羽毛球'], [3, '篮球'], [4, '音乐'], [5, '散步']]
+            }
+        };
+        var ParamsUtil = {
+            deepCopyObject: function(sourceObj) {
+                var targetObject = Object.create(null);
+                for(var p in sourceObj) {
+                    if (typeof sourceObj[p] === 'object') {
+                        targetObject[p] = ParamsUtil.deepCopyObject(sourceObj[p]);
+                    } else {
+                        targetObject[p] = sourceObj[p];
+                    }
+                }
+                return targetObject;
+            },
+            transformObjectToArray: function(object) {
+                var array = [].slice.call(object);
+                for(var p in object) {
+                    if (typeof object[p] == 'object') {
+                        array[p] = ParamsUtil.transformObjectToArray(object[p]);
+                    } else {
+                        array[p] = object[p];
+                    }
+                }
+                return array;
+            }
+        };
+        Handlebars.registerHelper('form', function(options) {
+            var objKeys = Object.keys(this.data), formString = '';
+            var module_name = this.context.module_name, dataObj = this.data;
+            objKeys.forEach(function(elem, index) {
+               var key = elem, value = dataObj[elem];console.log('index:', Object.keys(paramsConfig));
+               var text = ((Object.keys(paramsConfig).indexOf(elem) > -1) &&  Object.keys(paramsConfig[elem]).indexOf('text') > -1) ? paramsConfig[elem].text : key;
+               var data = {key: key, text: text, value: value, module_name: module_name};
+               var type = paramsConfig[elem] && ('type' in paramsConfig[elem]) ? paramsConfig[elem]['type'] : '';
+               switch (type) {
+                    case 'string':
+                        formString += Handlebars.compile(document.getElementById('form-string').innerHTML)(data);
+                        break;
+                    case 'radio':
+                        var radiosParams = ParamsUtil.deepCopyObject(paramsConfig[key].radios);
+                        var radiosParamsArray = ParamsUtil.transformObjectToArray(radiosParams);
+                        radiosParamsArray.forEach(function(ele, num) {
+                            if (ele[0] === value) {
+                                radiosParamsArray[num].checked = true;
+                            }
+                        });
+                        data.radios = radiosParamsArray;console.log('rarray:', radiosParamsArray, radiosParams);
+                        formString += Handlebars.compile(document.getElementById('form-radio').innerHTML)(data);
+                        break;
+                    case 'select':
+                        var selectsParams = ParamsUtil.deepCopyObject(paramsConfig[key].selects);
+                        var selectsParamsParamsArray = ParamsUtil.transformObjectToArray(selectsParams);
+                        selectsParamsParamsArray.forEach(function(ele, num) {
+                            if (ele[0] === value) {
+                                selectsParamsParamsArray[num].selected = true;
+                            }
+                        });
+                        data.selects = selectsParamsParamsArray;
+                        formString += Handlebars.compile(document.getElementById('form-select').innerHTML)(data);
+                        break;
+                    case 'checkbox':
+                        var valueArray = value.split(',');
+                        paramsConfig[key].checkboxes.forEach(function(ele, num) {
+                            valueArray.forEach(function(val, vindex) {
+                                if (ele[0] == val) {
+                                    paramsConfig[key].checkboxes[num].checked = true;
+                                }
+                            });
+                        });
+                        data.checkboxes = paramsConfig[key].checkboxes;
+                        formString += Handlebars.compile(document.getElementById('form-checkbox').innerHTML)(data);
+                        break;
+                    default: 
+                        formString += Handlebars.compile(document.getElementById('form-string').innerHTML)(data);
+                }
+            });
+            return formString;
+        });
+        Handlebars.registerHelper('formSchema', function(module, options) {
+            var func = Handlebars.compile(document.getElementById('form_template').innerHTML);
+            var data = {data: module, context: options.hash};
+            return new Handlebars.SafeString(func(data));
+        });
+        var templateFunction = Handlebars.compile(document.getElementById('form_schema').innerHTML);
+        var data = {
+            opt1: {
+                name: 'namevalue1',
+                age: 2101,
+                sex: 1,
+                degree: 2,
+                address: 'wuhan city',
+                intrest: '1,2,3',
+                u: 'uuu'
+            },
+            opt2: {
+                name: 'namevalue2',
+                age: 20,
+                sex: 0,
+                degree: 1,
+                intrest: '1,2'
+            },
+            val: 'eee',
+            name: 'dddddd'
+        };
+        document.getElementById('form').innerHTML = templateFunction(data);
+    </script>
+  </body>
+  </html>
