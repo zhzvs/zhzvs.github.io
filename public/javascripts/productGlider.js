@@ -1,32 +1,163 @@
+// Handlebars.registerHelper('form', function(options) {
+//     var formstr = '';
+//     for(var prop in this.data) {
+//         if (excludes.indexOf(prop) === -1) {
+//             var key = prop, value = this.data[prop];
+//             formstr += options.fn({key: key, value: value, model_name: this.context['model_name']});
+//         }
+//     }
+//     return formstr;
+// });
+// Handlebars.registerHelper('formschema', function(originData, options) {
+//     var template = document.getElementById('form-template').innerHTML;
+//     var compileFunction = Handlebars.compile(template);
+//     var data = {data: originData, context: options.hash};
+//     console.log(data);
+//     return new Handlebars.SafeString(compileFunction(data));
+// });
 Handlebars.registerHelper('form', function(options) {
-    var formstr = '';
-    for(var prop in this.data) {
-        if (excludes.indexOf(prop) === -1) {
-            var key = prop, value = this.data[prop];
-            formstr += options.fn({key: key, value: value, model_name: this.context['model_name']});
+    if (!this.data) {
+        return new Handlebars.SafeString("<h4>暂无数据！</h4>");
+    }
+    var objKeys = Object.keys(this.data), formString = '';
+    var module_name = this.context.module_name, dataObj = this.data;
+    objKeys.forEach(function(elem, index) {
+       var key = elem, value = dataObj[elem];console.log('index:', Object.keys(paramsConfig));
+       var text = ((Object.keys(paramsConfig).indexOf(elem) > -1) &&  Object.keys(paramsConfig[elem]).indexOf('text') > -1) ? paramsConfig[elem].text : key;
+       var type = paramsConfig[elem] && ('type' in paramsConfig[elem]) ? paramsConfig[elem]['type'] : 'empty';
+       var domId = module_name + '-' + key;
+       var data = {key: key, text: text, value: value, module_name: module_name, domId: domId};
+       switch (type) {
+            case 'text':console.log('event:', paramsConfig[key].events);
+                ParamsUtil.addEventsListener(paramsConfig[key].events, domId);
+                formString += Handlebars.compile(document.getElementById('form-text').innerHTML)(data);
+                break;
+            case 'radio':
+                var radiosParams = ParamsUtil.deepCopyObject(paramsConfig[key].items);
+                var radiosParamsArray = ParamsUtil.transformObjectToArray(radiosParams);
+                radiosParamsArray.forEach(function(ele, num) {
+                    if (ele[0] === value) {
+                        radiosParamsArray[num].checked = true;
+                    }
+                    ele['domId'] = domId + '_' + num;
+                    ParamsUtil.addEventsListener(paramsConfig[key].events, ele['domId']);
+                });
+                data.items = radiosParamsArray;
+                formString += Handlebars.compile(document.getElementById('form-radio').innerHTML)(data);
+                break;
+            case 'select':
+                var selectsParams = ParamsUtil.deepCopyObject(paramsConfig[key].items);
+                var selectsParamsParamsArray = ParamsUtil.transformObjectToArray(selectsParams);
+                selectsParamsParamsArray.forEach(function(ele, num) {
+                    if (ele[0] === value) {
+                        selectsParamsParamsArray[num].selected = true;
+                    }
+                });
+                data.items = selectsParamsParamsArray;
+                ParamsUtil.addEventsListener(paramsConfig[key].events, domId);
+                formString += Handlebars.compile(document.getElementById('form-select').innerHTML)(data);
+                break;
+            case 'checkbox':
+                var valueArray = value.split(',');
+                var checkboxesParams = ParamsUtil.deepCopyObject(paramsConfig[key].items);
+                var checkboxesParamsArray = ParamsUtil.transformObjectToArray(checkboxesParams);
+                checkboxesParamsArray.forEach(function(ele, num) {
+                    valueArray.forEach(function(val, vindex) {
+                        if (ele[0] == val) {
+                            checkboxesParamsArray[num].checked = true;
+                        }
+                    });
+                    var subDomId = domId + '_' + num;
+                    ele['domId'] = subDomId;
+                    ParamsUtil.addEventsListener(paramsConfig[key].events, ele['domId']);
+                });
+                data.items = checkboxesParamsArray;
+                formString += Handlebars.compile(document.getElementById('form-checkbox').innerHTML)(data);
+                break;
+            default:
+                formString += Handlebars.compile(document.getElementById('form-text').innerHTML)(data);
+        }
+    });
+    return new Handlebars.SafeString(formString);
+});
+Handlebars.registerHelper('formSchema', function(module, options) {
+    var func = Handlebars.compile(document.getElementById('form-template').innerHTML);
+    var data = {data: module, context: options.hash};
+    return new Handlebars.SafeString(func(data));
+});
+// Handlebars.registerHelper('forms-table-chema', function(originData, options) {
+//     var template = document.getElementById('table-form-template').innerHTML;
+//     var compileFunction = Handlebars.compile(template);
+//     var data = {data: originData, context: options.hash};
+//     return new Handlebars.SafeString(compileFunction(data));
+// });
+// Handlebars.registerHelper('forms-table-chema2', function(originData, options) {
+//     var template = document.getElementById('table-form-template2').innerHTML;
+//     var compileFunction = Handlebars.compile(template);
+//     var data = {data: originData, context: options.hash};
+//     return new Handlebars.SafeString(compileFunction(data));
+// });
+var paramsConfig = {
+    workmode: {
+        text: '工作模式',
+        type: 'text',
+        events: {
+            click: function() {
+                alert('ok!');
+            }
+        }
+    },
+    xonxoff: {
+        text: 'xonxoff_text',
+        type: 'radio',
+        items: [[0, '否'], [1, '是']],
+    }
+};
+var ParamsUtil = {
+    deepCopyObject: function(sourceObj) {
+        var targetObject = Object.create(null);
+        for(var p in sourceObj) {
+            if (typeof sourceObj[p] === 'object') {
+                targetObject[p] = ParamsUtil.deepCopyObject(sourceObj[p]);
+            } else {
+                targetObject[p] = sourceObj[p];
+            }
+        }
+        return targetObject;
+    },
+    transformObjectToArray: function(object) {
+        var array = [].slice.call(object);
+        for(var p in object) {
+            if (typeof object[p] == 'object') {
+                array[p] = ParamsUtil.transformObjectToArray(object[p]);
+            } else {
+                array[p] = object[p];
+            }
+        }
+        return array;
+    },
+    addEvent: function (target, eventType, handler, domId) {
+        if (target.addEventListener) {
+            target.addEventListener(eventType, handler, false);
+        } else {
+            target.attachEvent("on" + eventType, function (event) {
+                event = event || window.event;
+                handler.call(document.getElementById(domId), event);
+            });
+        }
+    },
+    addEventsListener: function(eventsObject, domId) {
+        for(var eventProperty in eventsObject) {
+            ParamsUtil.addEvent(document.body, eventProperty, function(event){
+                if (event.target.id == domId) {
+                    eventsObject[eventProperty].call(document.getElementById(domId));
+                }
+            });
         }
     }
-    return formstr;
-});
-Handlebars.registerHelper('formschema', function(originData, options) {
-    var template = document.getElementById('form-template').innerHTML;
-    var compileFunction = Handlebars.compile(template);
-    var data = {data: originData, context: options.hash};
-    console.log(data);
-    return new Handlebars.SafeString(compileFunction(data));
-});
-Handlebars.registerHelper('forms-table-chema', function(originData, options) {
-    var template = document.getElementById('table-form-template').innerHTML;
-    var compileFunction = Handlebars.compile(template);
-    var data = {data: originData, context: options.hash};
-    return new Handlebars.SafeString(compileFunction(data));
-});
-Handlebars.registerHelper('forms-table-chema2', function(originData, options) {
-    var template = document.getElementById('table-form-template2').innerHTML;
-    var compileFunction = Handlebars.compile(template);
-    var data = {data: originData, context: options.hash};
-    return new Handlebars.SafeString(compileFunction(data));
-});
+};
+
+
 Handlebars.registerHelper('buttons', function(options){
     return options.fn(this.context);
 });
@@ -87,7 +218,8 @@ $(document).ready(function() {
     //航迹列表变量
     var seawayList = [];
     //初始化右侧数据填充
-    fillData({}, '#tabTemplate', '#v-pills-tabContent'); 
+    // console.log('console:', result.data);
+    fillData({data: {}, context: {}}, '#tabTemplate', '#v-pills-tabContent'); 
     //初始化右侧绑定页面的事件
     initPageEvent();
     //获取滑翔机列表
@@ -103,9 +235,8 @@ $(document).ready(function() {
                 });
             } else {
                 gliderListArray = result.data;
-                postConnection();
+                // postConnection();
                 fillData({data: result.data, seawayList: seawayList}, '#leftTabTemplate', '#leftTabHtml');
-                // fillData({data: [], seawayList: seawayList}, '#tabTemplate', '#v-pills-tabContent');
                 $('.left-side .nav-link').each(function(value, key) {
                     $(this).click(function() {
                         var id = $(this).data('gliderid');

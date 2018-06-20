@@ -6,7 +6,7 @@
     <title>errot-title</title>
     
     <script type="text/javascript" src="./public/javascripts/handlebars-v4.0.11.js"></script>
-    <script type="text/x-handlebars-template" id="form-string">
+    <script type="text/x-handlebars-template" id="form-text">
         <label for="inputEmail3" class="col-sm-4 col-form-label">{{text}}:</label>
         <div class="col-sm-8">
             <input type="text" class="form-control form-control-sm" id="{{module_name}}-{{key}}" value="{{value}}" placeholder="{{key}}">
@@ -15,8 +15,8 @@
     <script type="text/x-handlebars-template" id="form-radio">
         <label for="inputEmail3" class="col-sm-4 col-form-label">{{text}}:</label>
         <div class="col-sm-8">
-            {{#each radios}}
-            <input type="radio" class="form-control form-control-sm" name="{{../module_name}}-{{../key}}" value="{{0}}" {{#if checked}}checked{{/if}}>
+            {{#each items}}
+            <input type="radio" class="form-control form-control-sm" name="{{../domId}}" id="{{domId}}" value="{{0}}" {{#if checked}}checked{{/if}}>
             <label class="form-check-label" for="inlineRadio1">{{1}}</label>
             {{/each}}
         </div>
@@ -24,9 +24,9 @@
     <script type="text/x-handlebars-template" id="form-select">
         <label for="exampleFormControlSelect1">{{text}}:</label>    
         <div class="col-sm-8">
-            <select class="form-control" id="exampleFormControlSelect1">
-                {{#each selects}}
-                    <option {{#if selected}}selected = "selected"{{/if}} name="{{../module_name}}-{{../key}}" value="{{0}}">{{1}}</option>
+            <select class="form-control" id="{{domId}}">
+                {{#each items}}
+                    <option {{#if selected}}selected = "selected"{{/if}} value="{{0}}">{{1}}</option>
                 {{/each}}
             </select>
         </div>
@@ -34,14 +34,14 @@
     <script type="text/x-handlebars-template" id="form-checkbox">
         <label for="inputEmail3" class="col-sm-4 col-form-label">{{text}}:</label>
         <div class="col-sm-8">
-            {{#each checkboxes}}
-            <input type="checkbox" class="form-control form-control-sm" id="{{module_name}}-{{key}}" value="{{0}}" placeholder="{{key}}" {{#if checked}}checked{{/if}}>
+            {{#each items}}
+            <input type="checkbox" class="form-control form-control-sm" id="{{domId}}" value="{{0}}" placeholder="{{key}}" {{#if checked}}checked{{/if}}>
             <label class="form-check-label" for="inlineCheckbox1">{{1}}</label>
             {{/each}}
         </div>
     </script>
-    <script type="text/x-handlebars-template" id = "form_template">
-        {{#form}}{{/form}}
+    <script type="text/x-handlebars-template" id = "form-template">
+        {{form}}
     </script>
     <script type="text/x-handlebars-template" id = "form_schema">
         <div>{{formSchema opt2 style="float: left;width: 600px;" module_name="opt2"}}</div>
@@ -60,23 +60,39 @@
         var paramsConfig = {
             name: {
                 text: '姓名',
-                type: 'string'
+                type: 'text'
             },
             sex: {
                 text: '性别',
                 type: 'radio',
-                radios: [[1, '男'], [0, '女']]
+                items: [[1, '男'], [0, '女']],
+                events: {
+                    change: function() {
+                        alert(this.value);
+                    },
+                }
             },
             degree: {
                 text: '学历',
                 type: 'select',
-                selects: [[0, '请选择'], [1, '初中'], [2, '高中']]
+                items: [[0, '请选择'], [1, '初中'], [2, '高中']],
+                events: {
+                    change: function() {
+                        alert(this.value);
+                    },
+                }
             },
             intrest: {
                 text: '兴趣',
                 type: 'checkbox',
-                checkboxes: [[1, '足球'], [2, '羽毛球'], [3, '篮球'], [4, '音乐'], [5, '散步']]
-            }
+                items: [[11, '足球'], [22, '羽毛球'], [33, '篮球'], [44, '音乐'], [55, '散步']],
+                events: {
+                    change: function() {
+                        alert(this.value);
+                    },
+                }
+            },
+            
         };
         var ParamsUtil = {
             deepCopyObject: function(sourceObj) {
@@ -100,6 +116,25 @@
                     }
                 }
                 return array;
+            },
+            addEvent: function (target, eventType, handler, domId) {
+                if (target.addEventListener) {
+                    target.addEventListener(eventType, handler, false);
+                } else {
+                    target.attachEvent("on" + eventType, function (event) {
+                        event = event || window.event;
+                        handler.call(document.getElementById(domId), event);
+                    });
+                }
+            },
+            addEventsListener: function(eventsObject, domId) {
+                for(var eventProperty in eventsObject) {
+                    ParamsUtil.addEvent(document.body, eventProperty, function(event){
+                        if (event.target.id == domId) {
+                            eventsObject[eventProperty].call(document.getElementById(domId));
+                        }
+                    });
+                }
             }
         };
         Handlebars.registerHelper('form', function(options) {
@@ -108,54 +143,63 @@
             objKeys.forEach(function(elem, index) {
                var key = elem, value = dataObj[elem];console.log('index:', Object.keys(paramsConfig));
                var text = ((Object.keys(paramsConfig).indexOf(elem) > -1) &&  Object.keys(paramsConfig[elem]).indexOf('text') > -1) ? paramsConfig[elem].text : key;
-               var data = {key: key, text: text, value: value, module_name: module_name};
-               var type = paramsConfig[elem] && ('type' in paramsConfig[elem]) ? paramsConfig[elem]['type'] : '';
+               var type = paramsConfig[elem] && ('type' in paramsConfig[elem]) ? paramsConfig[elem]['type'] : 'empty';
+               var domId = module_name + '-' + key;
+               var data = {key: key, text: text, value: value, module_name: module_name, domId: domId};
                switch (type) {
-                    case 'string':
-                        formString += Handlebars.compile(document.getElementById('form-string').innerHTML)(data);
+                    case 'text':
+                        formString += Handlebars.compile(document.getElementById('form-text').innerHTML)(data);
                         break;
                     case 'radio':
-                        var radiosParams = ParamsUtil.deepCopyObject(paramsConfig[key].radios);
+                        var radiosParams = ParamsUtil.deepCopyObject(paramsConfig[key].items);
                         var radiosParamsArray = ParamsUtil.transformObjectToArray(radiosParams);
                         radiosParamsArray.forEach(function(ele, num) {
                             if (ele[0] === value) {
                                 radiosParamsArray[num].checked = true;
                             }
+                            ele['domId'] = domId + '_' + num;
+                            ParamsUtil.addEventsListener(paramsConfig[key].events, ele['domId']);
                         });
-                        data.radios = radiosParamsArray;console.log('rarray:', radiosParamsArray, radiosParams);
+                        data.items = radiosParamsArray;
                         formString += Handlebars.compile(document.getElementById('form-radio').innerHTML)(data);
                         break;
                     case 'select':
-                        var selectsParams = ParamsUtil.deepCopyObject(paramsConfig[key].selects);
+                        var selectsParams = ParamsUtil.deepCopyObject(paramsConfig[key].items);
                         var selectsParamsParamsArray = ParamsUtil.transformObjectToArray(selectsParams);
                         selectsParamsParamsArray.forEach(function(ele, num) {
                             if (ele[0] === value) {
                                 selectsParamsParamsArray[num].selected = true;
                             }
                         });
-                        data.selects = selectsParamsParamsArray;
+                        data.items = selectsParamsParamsArray;
+                        ParamsUtil.addEventsListener(paramsConfig[key].events, domId);
                         formString += Handlebars.compile(document.getElementById('form-select').innerHTML)(data);
                         break;
                     case 'checkbox':
                         var valueArray = value.split(',');
-                        paramsConfig[key].checkboxes.forEach(function(ele, num) {
+                        var checkboxesParams = ParamsUtil.deepCopyObject(paramsConfig[key].items);
+                        var checkboxesParamsArray = ParamsUtil.transformObjectToArray(checkboxesParams);
+                        checkboxesParamsArray.forEach(function(ele, num) {
                             valueArray.forEach(function(val, vindex) {
                                 if (ele[0] == val) {
-                                    paramsConfig[key].checkboxes[num].checked = true;
+                                    checkboxesParamsArray[num].checked = true;
                                 }
                             });
+                            var subDomId = domId + '_' + num;
+                            ele['domId'] = subDomId;
+                            ParamsUtil.addEventsListener(paramsConfig[key].events, ele['domId']);
                         });
-                        data.checkboxes = paramsConfig[key].checkboxes;
+                        data.items = checkboxesParamsArray;
                         formString += Handlebars.compile(document.getElementById('form-checkbox').innerHTML)(data);
                         break;
                     default: 
-                        formString += Handlebars.compile(document.getElementById('form-string').innerHTML)(data);
+                        formString += Handlebars.compile(document.getElementById('form-text').innerHTML)(data);
                 }
             });
-            return formString;
+            return new Handlebars.SafeString(formString);
         });
         Handlebars.registerHelper('formSchema', function(module, options) {
-            var func = Handlebars.compile(document.getElementById('form_template').innerHTML);
+            var func = Handlebars.compile(document.getElementById('form-template').innerHTML);
             var data = {data: module, context: options.hash};
             return new Handlebars.SafeString(func(data));
         });
@@ -167,7 +211,7 @@
                 sex: 1,
                 degree: 2,
                 address: 'wuhan city',
-                intrest: '1,2,3',
+                intrest: '11',
                 u: 'uuu'
             },
             opt2: {
@@ -175,7 +219,7 @@
                 age: 20,
                 sex: 0,
                 degree: 1,
-                intrest: '1,2'
+                intrest: '11,22,33,44'
             },
             val: 'eee',
             name: 'dddddd'

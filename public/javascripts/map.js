@@ -1,4 +1,4 @@
-let mapOptions = {
+var mapOptions = {
     width: 908,
     height: 580,
     start_latitude: 23.13,   //开始的纬度
