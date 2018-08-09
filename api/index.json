@@ -1,0 +1,50 @@
+{
+    "success": true,
+    "info": {
+        "city": "武汉",
+        "swiperList": [
+            {"id": 1, "imageUrl": "http://img1.qunarzz.com/piao/fusion/1807/66/e5a5cec881702f02.jpg_750x200_67bb5691.jpg"},
+            {"id": 2, "imageUrl": "http://img1.qunarzz.com/piao/fusion/1807/c6/44fce1467be17702.jpg_750x200_406f5fc3.jpg"},
+            {"id": 3, "imageUrl": "http://img1.qunarzz.com/piao/fusion/1807/e7/d70d0830a9941b02.jpg_750x200_f8c7d2ad.jpg"},
+            {"id": 4, "imageUrl": "http://img1.qunarzz.com/piao/fusion/1806/3c/c72a1ccd4d7b2202.jpg_750x200_b88bbab4.jpg"},
+            {"id": 5, "imageUrl": "http://img1.qunarzz.com/piao/fusion/1807/11/c095d59922775602.jpg_750x200_977527bb.jpg"},
+            {"id": 6, "imageUrl": "http://img1.qunarzz.com/piao/fusion/1806/1c/4847ea66072c7b02.jpg_750x200_c32457fb.jpg"},
+            {"id": 7, "imageUrl": "http://img1.qunarzz.com/piao/fusion/1807/ec/278a34afb59a0d02.jpg_750x200_3292a705.jpg"},
+            {"id": 8, "imageUrl": "http://img1.qunarzz.com/piao/fusion/1807/22/382624cbe97b0502.jpg_750x200_36a074d6.jpg"},
+            {"id": 9, "imageUrl": "http://img1.qunarzz.com/piao/fusion/1806/8f/d09fa241a01ac02.jpg_750x200_e0c86013.jpg"}
+        ],
+        "iconList": [
+            {"id": 1, "imgUrl": "http://img1.qunarzz.com/piao/fusion/1803/95/f3dd6c383aeb3b02.png", "text": "景点门票景点门票景点门票景点门票景点门票景点门票"},
+            {"id": 2, "imgUrl": "http://img1.qunarzz.com/piao/fusion/1803/96/c70f1e85ae4a4f02.png", "text": "自然风光"},
+            {"id": 3, "imgUrl": "http://img1.qunarzz.com/piao/fusion/1803/95/8246f27355943202.png", "text": "游乐场"},
+            {"id": 4, "imgUrl": "http://img1.qunarzz.com/piao/fusion/1803/6a/45f595250c73d102.png", "text": "夏日玩水"},
+            {"id": 5, "imgUrl": "http://img1.qunarzz.com/piao/fusion/1803/50/26ffa31b56646402.png", "text": "海洋馆"},
+            {"id": 6, "imgUrl": "http://img1.qunarzz.com/piao/fusion/1804/5a/13ceb38dcf262f02.png", "text": "一日游"},
+            {"id": 7, "imgUrl": "http://img1.qunarzz.com/piao/fusion/1803/20/831d62d2e1c7be02.png", "text": "文化古迹"},
+            {"id": 8, "imgUrl": "http://img1.qunarzz.com/piao/fusion/1804/95/8d02011d149bdb02.png", "text": "汽车票"},
+            {"id": 9, "imgUrl": "http://img1.qunarzz.com/piao/fusion/1803/3e/86314b2af03b7502.png", "text": "水上玩乐"},
+            {"id": 10, "imgUrl": "http://img1.qunarzz.com/piao/fusion/1803/80/416c6ab3368d1f02.png", "text": "全部玩乐"}
+        ],
+        "recommendList": [
+            {"id":1, "imgUrl": "http://img1.qunarzz.com/sight/p0/1503/55/5577ab22b2e205d0.water.jpg_150x150_b3d42462.jpg", "title": "武汉海昌极地海洋世界", "detail": "武汉海昌极地海洋世界,位于湖北省武汉市。海洋世界将呈现给世人真实的海洋生物画面。海洋馆的价格是成人每张120元，儿童免费"
+            },
+            {"id":2, "imgUrl": "http://img1.qunarzz.com/sight/p0/1603/b1/b1da46b5326eb99e90.water.jpg_150x150_c2dcbac7.jpg", "title": "武汉欢乐谷", "detail": "夜场人也不少，玩的还不错，就是天气太热"
+            },
+            {"id":3, "imgUrl": "http://img1.qunarzz.com/sight/p0/1508/6e/6e6aea7b0079eb8.img.jpg_200x200_7cc337f6.jpg", "title": "武汉玛雅海滩水公园",
+                "detail": "身份证直接进场，唯一的就是小孩太小，好多项目不能玩"
+            },
+            {"id":4, "imgUrl": "http://img1.qunarzz.com/sight/p0/1412/3f/f4d858b40070a2232c1f2ffb74d5e2aa.water.jpg_200x200_be41969c.jpg", "title": "锦里沟",
+                "detail": "好的朋友可以理解一下自己喜欢什么时候回家过年回家吃饭去了！你好吗👋！今天晚上有时间吗？在一起的时候我们一起努力奋斗！好吧！这里的风景名胜区位于湖北省武汉市黄陂区境内从事旅游景点旅游胜地！"
+            },
+            {"id":5, "imgUrl": "http://img1.qunarzz.com/sight/p0/1805/2d/2dbd8192da29dfcda3.img.jpg_200x200_e3cf9290.jpg", "title": "木兰天池","detail": "很方便！这样很适合亲子游的人群！赞！"
+            },
+            {"id":6, "imgUrl": "http://img1.qunarzz.com/sight/p0/1505/bb/bb978d0b35e4965c.water.jpg_150x150_23b1a91d.jpg", "title": "汉秀剧场", "detail": "感受汉秀剧场的美丽"}
+        ],
+        "weekendList": [
+            {"id":1, "imgUrl": "http://img1.qunarzz.com/sight/source/1505/d5/abe8a48a6ef8bf.jpg_r_640x214_7c41cc81.jpg", "title": "武汉必游TOP10", "detail": "到武汉感受神奇的热干面之都"},
+            {"id":2, "imgUrl": "http://img1.qunarzz.com/sight/source/1505/4f/95a94c90ef3521.jpg_r_640x214_345412f9.jpg", "title": "开启亲子时光", "detail": "这些地方都是宝贝的最爱"},
+            {"id":3, "imgUrl": "http://img1.qunarzz.com/sight/source/1505/3a/f96e254541abb.jpg_r_640x214_6b1fc9f0.jpg", "title": "鄂西旅游圈", "detail": "感受鄂西旖旎风光，土苗民族风情"},
+            {"id":4, "imgUrl": "http://img1.qunarzz.com/sight/source/1505/ce/0dd5b8b5f5fd2a.jpg_r_640x214_929b1bec.jpg", "title": "玩遍楚河汉街", "detail": "现代版“清明上河图”"}
+        ]
+    }
+}
